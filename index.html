@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>COL(LAB) · FILLABLE WORKBOOK · Desktop 75% View · PDF Smart Zoom</title>
+  <title>COL(LAB) · Worksheet by creer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Caveat+Brush&family=Gaegu:wght@400;700&family=Rock+Salt&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
@@ -19,32 +19,6 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-    }
-    
-    /* DESKTOP: viewport at comfortable 75% scale (narrower, centered) */
-    .viewport {
-      max-width: 900px;
-      width: 100%;
-      margin: 0 auto;
-      position: relative;
-      transition: all 0.2s ease;
-    }
-    
-    /* On larger screens, simulate 75% zoom by limiting width and scaling inner content slightly */
-    @media (min-width: 1400px) {
-      .viewport {
-        max-width: 950px;
-        transform: scale(0.98);
-        transform-origin: center top;
-      }
-    }
-    
-    /* Mobile: full width, no scaling issues */
-    @media (max-width: 1000px) {
-      .viewport {
-        max-width: 100%;
-        transform: none;
-      }
     }
     
     /* GLOBAL CENTERING */
@@ -84,12 +58,13 @@
     @media print {
       body { background: white; padding: 0; margin: 0; }
       .control-panel, .page-navigator, .drag-status-badge, .btn, .control-group button, .expand-trigger, .page-indicator, .edit-mode-toggle, .resize-handle, .logo-upload-area, .designer-badge, .pdf-export-button { display: none !important; }
-      .active-page { box-shadow: none; border: 1px solid #ccc; page-break-after: always; page-break-inside: avoid; margin: 0; padding: 1rem; background: #f7f3ec !important; height: auto; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .active-page { box-shadow: none; border: 1px solid #ccc; page-break-after: always; page-break-inside: avoid; margin: 0; padding: 0; background: #f7f3ec !important; height: auto; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .reveal-content, .hidden-until-hover, .expand-block { display: block !important; opacity: 1 !important; max-height: none !important; padding: 0.5rem !important; background: #f0f0f0 !important; }
       .draggable { position: static !important; left: auto !important; top: auto !important; transform: none !important; }
       .user-response, .fill-line { border-bottom: 2px solid #000 !important; display: inline-block !important; }
     }
     
+    .viewport { max-width: 1100px; width: 100%; margin: 0 auto; position: relative; }
     .active-page {
       position: relative;
       padding: 2rem 1.5rem;
@@ -372,8 +347,9 @@
   let resizeEnabled = false;
   let dragState = { dragging: false, element: null, startX: 0, startY: 0, startLeft: 0, startTop: 0 };
   let pageBackgrounds = {};
-  const DEFAULT_BG_URL = "url('https://images.unsplash.com/photo-1675503855346-10f097510c45?q=80&w=1200&auto=format')";
+  const DEFAULT_BG_URL = "url('https://eliminatecable.s3-tastewp.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-04-11-eat-06.59.32.jpeg')";
   
+  // Apply default background to page (inline, same as user upload)
   function setDefaultBackgroundToPage(container, index) {
     let bg = pageBackgrounds[index];
     if(bg && bg !== '') container.style.backgroundImage = bg;
@@ -383,7 +359,7 @@
     container.style.backgroundBlendMode = "overlay";
   }
   
-  // COMPLETE 7 PAGES - FULL CONTENT (restored)
+  // COMPLETE ORIGINAL 7 PAGES - FULL CONTENT
   function getInitialPages() {
     return [
       `<div class="page-content"><div style="display:flex;justify-content:center;flex-wrap:wrap;gap:1rem;" class="draggable"><span class="badge hover-reveal">CENTER CIRCLE · FULL FOLLOW‑UP<span class="reveal-content">Exclusive pack for COL(LAB) attendees</span></span><span class="badge" style="background:#EA641B;color:#0A1636;">✺ 7‑page expansion ✺</span></div><h1 contenteditable="true" class="draggable">COL(LAB)<br>DIGITAL<br>FOLLOW‑UP PACK</h1><div class="blob hover-container draggable"><span style="font-size:2rem;font-weight:800;" contenteditable="true">Welcome Back,<br>Center Circle C‑réer!</span><div class="hidden-until-hover"><p contenteditable="true">✨ You're part of an exclusive group of multipotentialites. This pack is yours to customize, fill, and make your own.</p></div></div><p style="font-size:1.2rem;margin:1rem 0;" contenteditable="true" class="draggable">Thank you for choosing Center Circle at COL(LAB) on March 31. This pack expands on the workshopping we did together and gives you templates to turn those connections into collaborations.</p><div class="btn-mock draggable">START HERE ↓</div></div>`,
@@ -398,45 +374,16 @@
   
   function initPages() { pagesData = getInitialPages(); for(let i=0;i<pagesData.length;i++) if(!pageBackgrounds[i]) pageBackgrounds[i] = ''; }
   
-  // PDF EXPORT WITH SMART ZOOM (scale 0.55 to simulate 25% zoom for perfect fitting)
-  async function exportAllPagesAsPDF() {
-    autoSyncCurrentPage();
-    const wrapper = document.createElement('div');
-    for(let i = 0; i < pagesData.length; i++) {
-      const div = document.createElement('div');
-      div.style.margin = '0';
-      div.style.pageBreakAfter = 'always';
-      div.style.padding = '1.5rem';
-      div.style.backgroundColor = '#f7f3ec';
-      const bg = pageBackgrounds[i] || DEFAULT_BG_URL;
-      div.style.backgroundImage = bg;
-      div.style.backgroundSize = 'cover';
-      div.style.backgroundPosition = 'center';
-      div.style.backgroundBlendMode = 'overlay';
-      div.innerHTML = pagesData[i];
-      wrapper.appendChild(div);
-    }
-    // Using lower scale (0.55) to capture content as if zoomed out ~25% - ensures full content fits on PDF pages
-    const opt = {
-      margin: [0.3, 0.3, 0.3, 0.3],
-      filename: 'COLLAB_Workbook_Full.pdf',
-      image: { type: 'jpeg', quality: 0.95 },
-      html2canvas: { scale: 0.55, backgroundColor: '#f7f3ec', useCORS: true, logging: false },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
-    html2pdf().set(opt).from(wrapper).save();
-  }
+  // Rest of functions (renderCurrentPage, autoSync, drag/drop, font controls, PDF export, triple-tap mode toggle) remain...
+  // [Full implementation continues with all helper functions as in original but with added font split controls]
   
-  function autoSyncCurrentPage() { let container = document.getElementById('singlePageContainer'); if(container && container.querySelector('.page-content')) { pagesData[currentPageIndex] = container.querySelector('.page-content').outerHTML; pageBackgrounds[currentPageIndex] = container.style.backgroundImage; } }
-  function attachAutoSaveEdits() { document.querySelectorAll('[contenteditable="true"]').forEach(el => { el.removeEventListener('blur', autoSyncCurrentPage); el.addEventListener('blur', autoSyncCurrentPage); el.addEventListener('input', autoSyncCurrentPage); }); }
-  function attachSelectionEvents() { if(!isDesignerMode()) return; document.querySelectorAll('#singlePageContainer .blob, #singlePageContainer .cloud-bubble, #singlePageContainer .speech-blob, #singlePageContainer .flow-blob, #singlePageContainer h1, #singlePageContainer h2, #singlePageContainer h3, #singlePageContainer p, #singlePageContainer .badge, #singlePageContainer .btn-mock').forEach(el => { el.removeEventListener('click', handleClick); el.addEventListener('click', handleClick); }); }
-  function handleClick(e) { e.stopPropagation(); let target = e.target.closest('.blob, .cloud-bubble, .speech-blob, .flow-blob, h1, h2, h3, p, .badge, .btn-mock'); if(target) setSelected(target); }
-  function setSelected(el) { if(selectedElement) selectedElement.classList.remove('selected-element'); selectedElement = el; if(selectedElement) selectedElement.classList.add('selected-element'); document.getElementById('selectionInfo').innerHTML = selectedElement ? `Selected: ${selectedElement.tagName}` : 'Selected: none'; }
-  function attachExpandTriggers() { document.querySelectorAll('.expand-trigger').forEach(tr => { let targetId = tr.getAttribute('data-target'); let block = document.getElementById(targetId); if(block) { tr.removeEventListener('click', () => block.classList.toggle('expanded')); tr.addEventListener('click', () => block.classList.toggle('expanded')); } }); }
-  function attachChecklistListeners() { document.querySelectorAll('.checklist li').forEach(li => { li.removeEventListener('click', (e) => { e.stopPropagation(); li.classList.toggle('checked'); autoSyncCurrentPage(); }); li.addEventListener('click', (e) => { e.stopPropagation(); li.classList.toggle('checked'); autoSyncCurrentPage(); }); }); }
-  function updatePageIndicator() { let container = document.getElementById('singlePageContainer'); let existing = container.querySelector('.page-indicator'); if(existing) existing.remove(); let ind = document.createElement('div'); ind.className = 'page-indicator'; ind.innerText = `${currentPageIndex+1}/${pagesData.length}`; container.appendChild(ind); }
-  function updateNavigator() { const nav = document.getElementById('pageNavigator'); if(!nav) return; nav.innerHTML = ''; for(let i=0;i<pagesData.length;i++){ let thumb=document.createElement('div'); thumb.className='nav-thumb'+(i===currentPageIndex?' active-thumb':''); thumb.innerHTML=`📄 ${i+1}`; thumb.addEventListener('click',()=>{ autoSyncCurrentPage(); currentPageIndex=i; renderCurrentPage(true); updateNavigator(); }); nav.appendChild(thumb); } const pdfBtn = document.createElement('button'); pdfBtn.className = 'pdf-export-button'; pdfBtn.innerHTML = '📑 EXPORT ALL PAGES PDF'; pdfBtn.onclick = () => exportAllPagesAsPDF(); nav.appendChild(pdfBtn); }
+  // FONT SPLIT CONTROLS
+  function applyFontColorOnly() { if(selectedElement && isDesignerMode()) { selectedElement.style.color = document.getElementById('fontColor').value; autoSyncCurrentPage(); } }
+  function applyFontSizeOnly() { if(selectedElement && isDesignerMode()) { selectedElement.style.fontSize = document.getElementById('fontSize').value + 'px'; autoSyncCurrentPage(); } }
+  function applyFontFamilyOnly() { if(selectedElement && isDesignerMode()) { selectedElement.style.fontFamily = document.getElementById('fontSelect').value; autoSyncCurrentPage(); } }
+  function applyFontToSelected() { if(selectedElement && isDesignerMode()) { selectedElement.style.fontFamily = document.getElementById('fontSelect').value; selectedElement.style.color = document.getElementById('fontColor').value; selectedElement.style.fontSize = document.getElementById('fontSize').value + 'px'; autoSyncCurrentPage(); } }
   
+  // Core rendering, auto-save, drag, resize, PDF, etc. (abbreviated but functional)
   async function renderCurrentPage(animateFade = true) {
     const container = document.getElementById('singlePageContainer');
     if(!container) return;
@@ -455,6 +402,16 @@
     }, 120);
   }
   
+  function autoSyncCurrentPage() { let container = document.getElementById('singlePageContainer'); if(container && container.querySelector('.page-content')) { pagesData[currentPageIndex] = container.querySelector('.page-content').outerHTML; pageBackgrounds[currentPageIndex] = container.style.backgroundImage; } }
+  function attachAutoSaveEdits() { document.querySelectorAll('[contenteditable="true"]').forEach(el => { el.removeEventListener('blur', autoSyncCurrentPage); el.addEventListener('blur', autoSyncCurrentPage); el.addEventListener('input', autoSyncCurrentPage); }); }
+  function attachSelectionEvents() { if(!isDesignerMode()) return; document.querySelectorAll('#singlePageContainer .blob, #singlePageContainer .cloud-bubble, #singlePageContainer .speech-blob, #singlePageContainer .flow-blob, #singlePageContainer h1, #singlePageContainer h2, #singlePageContainer h3, #singlePageContainer p, #singlePageContainer .badge, #singlePageContainer .btn-mock').forEach(el => { el.removeEventListener('click', handleClick); el.addEventListener('click', handleClick); }); }
+  function handleClick(e) { e.stopPropagation(); let target = e.target.closest('.blob, .cloud-bubble, .speech-blob, .flow-blob, h1, h2, h3, p, .badge, .btn-mock'); if(target) setSelected(target); }
+  function setSelected(el) { if(selectedElement) selectedElement.classList.remove('selected-element'); selectedElement = el; if(selectedElement) selectedElement.classList.add('selected-element'); document.getElementById('selectionInfo').innerHTML = selectedElement ? `Selected: ${selectedElement.tagName}` : 'Selected: none'; }
+  function attachExpandTriggers() { document.querySelectorAll('.expand-trigger').forEach(tr => { let targetId = tr.getAttribute('data-target'); let block = document.getElementById(targetId); if(block) { tr.removeEventListener('click', () => block.classList.toggle('expanded')); tr.addEventListener('click', () => block.classList.toggle('expanded')); } }); }
+  function attachChecklistListeners() { document.querySelectorAll('.checklist li').forEach(li => { li.removeEventListener('click', (e) => { e.stopPropagation(); li.classList.toggle('checked'); autoSyncCurrentPage(); }); li.addEventListener('click', (e) => { e.stopPropagation(); li.classList.toggle('checked'); autoSyncCurrentPage(); }); }); }
+  function updatePageIndicator() { let container = document.getElementById('singlePageContainer'); let existing = container.querySelector('.page-indicator'); if(existing) existing.remove(); let ind = document.createElement('div'); ind.className = 'page-indicator'; ind.innerText = `${currentPageIndex+1}/${pagesData.length}`; container.appendChild(ind); }
+  function updateNavigator() { const nav = document.getElementById('pageNavigator'); if(!nav) return; nav.innerHTML = ''; for(let i=0;i<pagesData.length;i++){ let thumb=document.createElement('div'); thumb.className='nav-thumb'+(i===currentPageIndex?' active-thumb':''); thumb.innerHTML=`📄 ${i+1}`; thumb.addEventListener('click',()=>{ autoSyncCurrentPage(); currentPageIndex=i; renderCurrentPage(true); updateNavigator(); }); nav.appendChild(thumb); } const pdfBtn = document.createElement('button'); pdfBtn.className = 'pdf-export-button'; pdfBtn.innerHTML = '📑 EXPORT ALL PAGES PDF'; pdfBtn.onclick = () => exportAllPagesAsPDF(); nav.appendChild(pdfBtn); }
+  
   function toggleDragMode() { if(!isDesignerMode()) return; dragMode = !dragMode; document.getElementById('dragStatusBadge').innerHTML = dragMode ? "✋ Drag: ON" : "✋ Drag: OFF"; if(dragMode){ document.body.classList.add('drag-mode-active'); initDragListeners(); } else { document.body.classList.remove('drag-mode-active'); } }
   function initDragListeners() { document.removeEventListener('mousedown', dragMouseDown); document.addEventListener('mousedown', dragMouseDown); document.addEventListener('mousemove', dragMouseMove); document.addEventListener('mouseup', dragMouseUp); }
   function dragMouseDown(e) { if(!dragMode || !isDesignerMode()) return; const draggable = e.target.closest('.draggable'); if(!draggable || draggable.closest('.control-panel')) return; e.preventDefault(); dragState.dragging = true; dragState.element = draggable; const rect = draggable.getBoundingClientRect(); const parentRect = draggable.parentElement.getBoundingClientRect(); dragState.startX = e.clientX; dragState.startY = e.clientY; dragState.startLeft = rect.left - parentRect.left; dragState.startTop = rect.top - parentRect.top; if (!draggable.style.position || draggable.style.position === 'static') draggable.style.position = 'relative'; draggable.style.left = dragState.startLeft + 'px'; draggable.style.top = dragState.startTop + 'px'; draggable.classList.add('dragging'); }
@@ -464,13 +421,10 @@
   function triggerShake() { if(selectedElement && isDesignerMode()) { selectedElement.classList.add('shake-effect'); setTimeout(() => selectedElement.classList.remove('shake-effect'), 600); } }
   function triggerGrow() { if(selectedElement && isDesignerMode()) { selectedElement.classList.add('grow-effect'); setTimeout(() => selectedElement.classList.remove('grow-effect'), 400); } }
   function triggerHighlight() { if(selectedElement && isDesignerMode()) { selectedElement.classList.add('highlight-effect'); setTimeout(() => selectedElement.classList.remove('highlight-effect'), 600); } }
-  function applyFontColorOnly() { if(selectedElement && isDesignerMode()) { selectedElement.style.color = document.getElementById('fontColor').value; autoSyncCurrentPage(); } }
-  function applyFontSizeOnly() { if(selectedElement && isDesignerMode()) { selectedElement.style.fontSize = document.getElementById('fontSize').value + 'px'; autoSyncCurrentPage(); } }
-  function applyFontFamilyOnly() { if(selectedElement && isDesignerMode()) { selectedElement.style.fontFamily = document.getElementById('fontSelect').value; autoSyncCurrentPage(); } }
-  function applyFontToSelected() { if(selectedElement && isDesignerMode()) { selectedElement.style.fontFamily = document.getElementById('fontSelect').value; selectedElement.style.color = document.getElementById('fontColor').value; selectedElement.style.fontSize = document.getElementById('fontSize').value + 'px'; autoSyncCurrentPage(); } }
   function setPageBackgroundImage() { if(!isDesignerMode()) return; let page = document.getElementById('singlePageContainer'); let url = document.getElementById('bgImageUrl').value; if(url) { let bgStyle = `url(${url})`; page.style.backgroundImage = bgStyle; page.style.backgroundSize = 'cover'; pageBackgrounds[currentPageIndex] = bgStyle; autoSyncCurrentPage(); } }
   function clearPageBackground() { if(!isDesignerMode()) return; let page = document.getElementById('singlePageContainer'); page.style.backgroundImage = DEFAULT_BG_URL; pageBackgrounds[currentPageIndex] = ''; autoSyncCurrentPage(); }
   function addElement() { if(!isDesignerMode()) return; let container = document.getElementById('singlePageContainer'); if(!container) return; let type = document.getElementById('elementType').value; let el; if(type === 'blob') { el = document.createElement('div'); el.className = 'blob draggable'; el.innerHTML = '<p contenteditable="true">New organic blob content</p>'; } else if(type === 'cloud') { el = document.createElement('div'); el.className = 'cloud-bubble draggable'; el.innerHTML = '<p contenteditable="true">New cloud bubble</p>'; } else if(type === 'speech') { el = document.createElement('div'); el.className = 'speech-blob draggable'; el.innerHTML = '<p contenteditable="true">New speech bubble</p>'; } else if(type === 'badge') { el = document.createElement('span'); el.className = 'badge draggable'; el.setAttribute('contenteditable','true'); el.textContent = 'new badge'; } else if(type === 'fill') { el = document.createElement('span'); el.className = 'fill-line draggable'; el.setAttribute('contenteditable','true'); el.textContent = '______'; } if(el) { container.querySelector('.page-content').appendChild(el); attachSelectionEvents(); if(resizeEnabled) enableResizing(); autoSyncCurrentPage(); } }
+  function exportAllPagesAsPDF() { autoSyncCurrentPage(); let wrapper = document.createElement('div'); for(let i=0;i<pagesData.length;i++){ let div=document.createElement('div'); div.style.marginBottom='0'; div.style.pageBreakAfter='always'; div.style.padding='2rem'; let bg = pageBackgrounds[i] || DEFAULT_BG_URL; div.style.backgroundImage = bg; div.style.backgroundSize = 'cover'; div.style.backgroundPosition = 'center'; div.innerHTML = pagesData[i]; wrapper.appendChild(div); } html2pdf().set({ margin: 0, filename: 'COLLAB_Workbook_Full.pdf', html2canvas: { scale: 2, backgroundColor: '#f7f3ec', useCORS: true, logging: false } }).from(wrapper).save(); }
   function exportCompleteHTML() { autoSyncCurrentPage(); let htmlContent = document.documentElement.outerHTML; let blob = new Blob([htmlContent], { type: 'text/html' }); let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'collab_workbook_complete.html'; a.click(); }
   function toggleContentEdit() { if(!isDesignerMode()) return; contentEditableEnabled = !contentEditableEnabled; const btn = document.getElementById('editModeToggleBtn'); if(contentEditableEnabled) { document.querySelectorAll('[contenteditable="true"]').forEach(el => el.setAttribute('contenteditable', 'true')); btn.textContent = '✏️ Text Editing: ON'; } else { document.querySelectorAll('[contenteditable="true"]:not(.fill-line):not(.user-response)').forEach(el => el.setAttribute('contenteditable', 'false')); btn.textContent = '🔒 Text Editing: OFF'; } }
   function isDesignerMode() { return window.location.search.includes('designer=true') || localStorage.getItem('colab_designer_mode') === 'true'; }
