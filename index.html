@@ -161,7 +161,7 @@
     .fill-line, .user-response {
       border: none;
       border-bottom: 3px solid #0A1636;
-      background: rgba(255,255,255,0.4);
+      background: transparent;
       font-family: 'Kalam', cursive;
       font-size: 2rem;
       min-width: 140px;
@@ -291,14 +291,14 @@
     @media print {
       body { background: white; padding: 0; margin: 0; }
       .pdf-export-btn, .admin-panel { display: none !important; }
-      .page { box-shadow: none; border: 0px solid #ccc; page-break-after: always; margin: 0; padding: 1.5rem; background: white !important; }
-      .fill-line, .user-response { border-bottom: 2px solid #000 !important; background: rgba(0,0,0,0.3);3 }
+      .page { box-shadow: none; border: 0px solid #ccc; page-break-after: always; margin: 0; padding: 0; background: white !important; }
+      .fill-line, .user-response { border-bottom: 2px solid #000 !important; }
       .expand-block { max-height: none !important; padding: 0.8rem 1rem !important; display: block !important; }
       .hidden-until-hover { opacity: 1 !important; max-height: none !important; padding: 0.8rem 1rem !important; display: block !important; }
       .grid-2, .grid-3 { display: block !important; }
       .grid-2 > div, .grid-3 > div { margin-bottom: 1rem !important; }
     }
-    @media (max-width: 800px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } .page { padding: 1.2rem; } .admin-panel { width: 320px; } }
+    @media (max-width: 800px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } .page { padding: 0; } .admin-panel { width: 320px; } }
   </style>
 </head>
 <body>
