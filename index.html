@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>COL(LAB) · FINAL PERFECT STUDIO · Interactive Workbook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Caveat+Brush&family=Gaegu:wght@400;700&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #1a1a2e;
+      font-family: 'Caveat Brush', cursive;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    
+    /* GLOBAL CENTERING — everything aligned center */
+    .page, .page-content, .blob, .cloud-bubble, .speech-blob, .flow-blob,
+    .grid-2, .grid-3, .grid-2 > div, .grid-3 > div, h1, h2, h3, h4, p, li, 
+    .badge, .btn-mock, .deadline-strip, .deadline-strip span, .prompt-list li,
+    .checklist li, .expand-trigger, .expand-block, .user-response, .fill-line,
+    .hover-reveal, .hover-container, .hidden-until-hover, .guide-text,
+    .prompt-text, .question-text, .info-text, .fade-reveal-section,
+    .magic-sparkle, .shake-on-hover, .pulse-on-hover, .glow-on-hover {
+      text-align: center !important;
+      justify-content: center !important;
+      align-items: center !important;
+    }
+    
+    .grid-2, .grid-3, .deadline-strip, .flex-center {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center !important;
+    }
+    
+    .prompt-list, .checklist {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    /* PDF EXPORT BUTTON — elegant */
+    .pdf-export-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #EA641B;
+      border: 3px solid #0A1636;
+      padding: 0.8rem 1.8rem;
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.2rem;
+      color: white;
+      cursor: pointer;
+      border-radius: 60px;
+      box-shadow: 6px 6px 0 #0A1636;
+      z-index: 1000;
+      transition: all 0.2s;
+    }
+    .pdf-export-btn:hover { transform: translateY(-3px); box-shadow: 9px 9px 0 #0A1636; background: #c85312; }
+    
+    /* ADMIN PANEL (hidden, appears after triple-tap) */
+    .admin-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 420px;
+      background: #0A1636;
+      border: 3px solid #EA641B;
+      padding: 1rem;
+      z-index: 10000;
+      border-radius: 20px;
+      box-shadow: 10px 10px 0 rgba(0,0,0,0.4);
+      font-family: 'Kalam', cursive;
+      transition: opacity 0.3s, transform 0.3s;
+      opacity: 0;
+      transform: translateX(420px);
+      pointer-events: none;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+    .admin-panel.visible {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+    .admin-panel h3 {
+      font-family: 'Permanent Marker', cursive;
+      color: #EA641B;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #EA641B;
+      text-align: center;
+    }
+    .control-group {
+      margin-bottom: 1rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px dashed #EA641B;
+    }
+    .control-group label {
+      display: block;
+      font-size: 0.8rem;
+      color: #94B7F0;
+      margin: 0.3rem 0;
+      text-align: center;
+    }
+    .control-group input, .control-group select, .control-group textarea {
+      width: 100%;
+      padding: 0.4rem;
+      background: #f7f3ec;
+      border: 1px solid #EA641B;
+      font-family: 'Kalam';
+      border-radius: 12px;
+      text-align: center;
+    }
+    .color-input { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; justify-content: center; }
+    .btn {
+      background: #EA641B;
+      border: 1px solid #f7f3ec;
+      padding: 0.3rem 0.8rem;
+      font-family: 'Permanent Marker', cursive;
+      color: white;
+      cursor: pointer;
+      margin: 0.1rem;
+      font-size: 0.7rem;
+      border-radius: 40px;
+      transition: all 0.2s;
+    }
+    .btn:hover { background: #c85312; transform: scale(1.02); }
+    .edit-mode-toggle { background: #4a8ab5 !important; }
+    
+    /* PAGE STYLES */
+    .all-pages { max-width: 1100px; width: 100%; margin: 0 auto; }
+    .page {
+      position: relative;
+      background: #f7f3ec;
+      border: 4px solid #0A1636;
+      box-shadow: 12px 12px 0 #0A1636;
+      margin-bottom: 3rem;
+      padding: 2.5rem 2rem;
+      transition: box-shadow 0.2s, transform 0.1s;
+      page-break-after: always;
+      break-inside: avoid;
+    }
+    .page:hover { box-shadow: 14px 14px 0 #EA641B; }
+    .page-content { position: relative; z-index: 2; }
+    
+    /* EDIT MODE OFF = clean, no outlines */
+    body.edit-mode-off [contenteditable="true"] {
+      outline: none !important;
+      border: none !important;
+      cursor: text;
+    }
+    [contenteditable="true"]:focus { background: rgba(234,100,27,0.08); outline: none !important; }
+    
+    .fill-line, .user-response {
+      border: none;
+      border-bottom: 3px solid #0A1636;
+      background: transparent;
+      font-family: 'Kalam', cursive;
+      font-size: 1rem;
+      min-width: 140px;
+      padding: 0.2rem 0.5rem;
+      color: #0A1636;
+      display: inline-block;
+    }
+    .fill-line:focus, .user-response:focus { border-bottom-color: #EA641B; background: rgba(234,100,27,0.1); }
+    .user-response { display: block; width: 100%; margin: 0.5rem auto; }
+    .fill-line[contenteditable="true"]:empty:before { content: "______"; color: #94B7F0; }
+    
+    /* Checklist */
+    .checklist { list-style: none; padding: 0; }
+    .checklist li {
+      margin: 0.6rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .checklist li::before { content: "⨀"; font-size: 1.5rem; color: #0A1636; margin-right: 0.8rem; }
+    .checklist li.checked::before { content: "✓"; color: #EA641B; }
+    
+    /* Expand blocks */
+    .expand-block {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      background: rgba(10,22,54,0.05);
+    }
+    .expand-block.expanded { max-height: 600px; padding: 0.8rem 1rem; margin: 1rem 0; }
+    .expand-trigger {
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-family: 'Permanent Marker', cursive;
+      background: #EA641B20;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      transition: all 0.2s;
+    }
+    .expand-trigger:hover { background: #EA641B40; transform: scale(1.02); }
+    
+    /* INTERACTIVE ANIMATIONS */
+    .shake-on-hover:hover { animation: shake 0.3s ease-in-out 0s 1; }
+    .pulse-on-hover:hover { animation: growPulse 0.4s ease-out; }
+    .glow-on-hover:hover { box-shadow: 0 0 0 4px #EA641B, 0 0 0 8px rgba(234,100,27,0.3); transition: 0.1s; }
+    .magic-sparkle { position: relative; cursor: pointer; }
+    .magic-sparkle:active { animation: sparkleFlash 0.3s ease-out; }
+    .fade-reveal-section {
+      opacity: 0.6;
+      transition: opacity 0.5s ease, transform 0.3s;
+      transform: translateY(10px);
+    }
+    .fade-reveal-section.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .ripple-effect:active { animation: shrinkPop 0.2s ease-out; }
+    
+    @keyframes shake { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-5px);} 75%{transform:translateX(5px);} }
+    @keyframes growPulse { 0%{transform:scale(1);} 50%{transform:scale(1.05);background:rgba(234,100,27,0.2);} 100%{transform:scale(1);} }
+    @keyframes shrinkPop { 0%{transform:scale(1);} 50%{transform:scale(0.96);} 100%{transform:scale(1);} }
+    @keyframes sparkleFlash { 0%{box-shadow:0 0 0 0 #EA641B;} 50%{box-shadow:0 0 0 8px #EA641B80;} 100%{box-shadow:0 0 0 0 transparent;} }
+    
+    /* Shape styles */
+    .blob, .cloud-bubble, .speech-blob, .flow-blob {
+      border: 3px solid #0A1636;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      background: #fffdf5;
+      box-shadow: 8px 8px 0 #94B7F0;
+      transition: all 0.2s;
+    }
+    .blob { border-radius: 60% 40% 50% 30% / 40% 50% 60% 50%; }
+    .cloud-bubble { border-radius: 50% 20% 50% 20% / 20% 50% 20% 50%; background: #f0f7ff; }
+    .speech-blob { border-radius: 40% 60% 30% 70% / 50% 40% 60% 50%; background: #fff5e6; position: relative; }
+    .speech-blob::after { content: ''; position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent; border-top: 20px solid #0A1636; }
+    .flow-blob { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; background: #e8f0e8; }
+    
+    h1, h2, h3, h4 { font-family: 'Permanent Marker', cursive; font-weight: 400; line-height: 1.2; text-align: center; }
+    h1 { font-size: clamp(3rem, 8vw, 5rem); color: #EA641B; margin-bottom: 1rem; }
+    h2 { font-size: 2.2rem; margin: 1.5rem 0 1rem; color: #0A1636; }
+    h3 { font-size: 1.8rem; margin: 1rem auto; display: inline-block; background: #94B7F0; padding: 0.2rem 1.5rem; border: 2px solid #0A1636; }
+    .badge {
+      background: #0A1636;
+      color: #f5f0e1;
+      font-family: 'Permanent Marker', cursive;
+      padding: 0.2rem 1.2rem;
+      border: 2px solid #EA641B;
+      display: inline-block;
+      border-radius: 25px 55px 30px 70px;
+      transform: rotate(-1deg);
+      font-size: 0.9rem;
+      margin: 0.2rem;
+    }
+    .btn-mock {
+      background: #EA641B;
+      border: 3px solid #0A1636;
+      padding: 0.5rem 1.5rem;
+      font-family: 'Permanent Marker', cursive;
+      display: inline-block;
+      color: white;
+      border-radius: 75px 25px 88px 45px;
+      margin: 0.5rem auto;
+    }
+    .grid-2, .grid-3 { display: grid; gap: 1.5rem; margin: 1rem 0; }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .prompt-list { list-style: none; padding: 0; }
+    .prompt-list li { margin: 0.6rem 0; display: flex; align-items: baseline; justify-content: center; gap: 0.6rem; flex-wrap: wrap; }
+    .prompt-list li::before { content: "●"; color: #EA641B; font-size: 1.3rem; }
+    .deadline-strip { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin: 1rem 0; padding: 0.8rem 0; border-top: 3px dashed #0A1636; border-bottom: 3px dashed #0A1636; }
+    .guide-text { font-family: 'Kalam', cursive; font-size: 1rem; margin-bottom: 1rem; }
+    .hover-container .hidden-until-hover { opacity: 0; max-height: 0; overflow: hidden; transition: opacity 0.3s ease, max-height 0.4s ease; background: rgba(10,22,54,0.08); }
+    .hover-container:hover .hidden-until-hover { opacity: 1; max-height: 300px; padding: 0.8rem 1rem; margin: 1rem 0; }
+    .hover-reveal { position: relative; cursor: help; display: inline-block; }
+    .reveal-content { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: #0A1636; color: #EA641B; padding: 0.6rem 1.2rem; font-family: 'Kalam', cursive; font-size: 0.85rem; white-space: nowrap; opacity: 0; visibility: hidden; transition: opacity 0.2s; z-index: 100; border-radius: 20px; border: 2px solid #EA641B; pointer-events: none; }
+    .hover-reveal:hover .reveal-content { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(-5px); }
+    .page-indicator { position: absolute; bottom: 10px; right: 20px; font-family: 'Permanent Marker', cursive; font-size: 0.9rem; opacity: 0.5; z-index: 2; }
+    
+    /* Print PDF */
+    @media print {
+      body { background: white; padding: 0; margin: 0; }
+      .pdf-export-btn, .admin-panel { display: none !important; }
+      .page { box-shadow: none; border: 1px solid #ccc; page-break-after: always; margin: 0; padding: 1.5rem; background: white !important; }
+      .fill-line, .user-response { border-bottom: 2px solid #000 !important; }
+      .expand-block { max-height: none !important; padding: 0.8rem 1rem !important; display: block !important; }
+      .hidden-until-hover { opacity: 1 !important; max-height: none !important; padding: 0.8rem 1rem !important; display: block !important; }
+      .grid-2, .grid-3 { display: block !important; }
+      .grid-2 > div, .grid-3 > div { margin-bottom: 1rem !important; }
+    }
+    @media (max-width: 800px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } .page { padding: 1.2rem; } .admin-panel { width: 320px; } }
+  </style>
+</head>
+<body>
+
+<button class="pdf-export-btn" id="pdfExportBtn">📄 EXPORT FULL PDF (all pages)</button>
+
+<!-- ADMIN PANEL hidden behind triple-tap -->
+<div class="admin-panel" id="adminPanel">
+  <h3>🎨 ADMIN STUDIO · Full Control</h3>
+  <div class="control-group">
+    <label>✏️ Edit Mode (hide/show edit borders)</label>
+    <button class="btn edit-mode-toggle" id="editModeToggleBtn">🖍️ Edit Mode: ON</button>
+  </div>
+  <div class="control-group">
+    <label>✨ Element Effects (click any element first)</label>
+    <button class="btn" id="shakeBtn">🌀 Shake</button>
+    <button class="btn" id="growBtn">📈 Grow</button>
+    <button class="btn" id="highlightBtn">💡 Highlight</button>
+    <button class="btn" id="sparkleBtn">✨ Sparkle</button>
+    <input type="text" id="effectText" placeholder="Tooltip text" style="margin-top:5px;">
+    <button class="btn" id="addTooltipBtn">➕ Add Tooltip</button>
+    <button class="btn" id="addHiddenBtn">📦 Hidden Reveal</button>
+  </div>
+  <div class="control-group">
+    <label>🎨 Page Background (Image or Color)</label>
+    <div class="color-input"><input type="color" id="pageBgColor" value="#f7f3ec"><button class="btn" id="applyBgColorBtn">Set Color</button><button class="btn" id="applyBgAllBtn">To All Pages</button></div>
+    <input type="text" id="bgImageUrl" placeholder="Image URL"><input type="file" id="bgImageUpload" accept="image/*">
+    <select id="bgFit"><option value="cover">Cover</option><option value="contain">Contain</option><option value="repeat">Repeat</option></select>
+    <button class="btn" id="setBgImageBtn">Set Image</button><button class="btn" id="clearBgBtn">Clear</button>
+  </div>
+  <div class="control-group">
+    <label>📄 Page Management</label>
+    <button class="btn" id="saveAllBtn">💾 Save All to Local</button>
+    <button class="btn" id="loadAllBtn">📂 Load Saved</button>
+    <button class="btn" id="resetPagesBtn">⟳ Reset to Original</button>
+  </div>
+  <p id="selectionInfo" style="font-size:0.7rem; text-align:center;">Selected: none</p>
+</div>
+
+<div class="all-pages" id="allPagesContainer">
+  <!-- Pages will be dynamically injected to ensure interactivity & centering -->
+</div>
+
+<script>
+  // ========== FULL 7 PAGES WITH INTERACTIVITY ==========
+  const getOriginalPagesHTML = () => [
+    `<div class="page"><div class="page-content"><div style="display:flex;justify-content:center;flex-wrap:wrap;gap:1rem;"><span class="badge hover-reveal shake-on-hover">CENTER CIRCLE · FULL FOLLOW‑UP<span class="reveal-content">Exclusive pack for COL(LAB) attendees</span></span><span class="badge" style="background:#EA641B;color:#0A1636;">✺ 7‑page expansion ✺</span></div><h1 contenteditable="true" class="pulse-on-hover">COL(LAB)<br>DIGITAL<br>FOLLOW‑UP PACK</h1><div class="blob hover-container magic-sparkle"><span style="font-size:2rem;font-weight:800;" contenteditable="true">Welcome Back,<br>Center Circle C‑réer!</span><div class="hidden-until-hover"><p contenteditable="true">✨ You're part of an exclusive group of multipotentialites. This pack is yours to customize, fill, and make your own.</p></div></div><p style="font-size:1.2rem;margin:1rem 0;" contenteditable="true" class="ripple-effect">Thank you for choosing Center Circle at COL(LAB) on March 31. This pack expands on the workshopping we did together and gives you templates to turn those connections into collaborations.</p><div class="btn-mock glow-on-hover" contenteditable="true">START HERE ↓</div></div><div class="page-indicator">1/7</div></div>`,
+    `<div class="page"><div class="page-content"><h3 contenteditable="true" class="pulse-on-hover">📋 HOW TO USE THIS PACK</h3><div class="grid-2"><div class="cloud-bubble hover-container"><p style="font-family:'Permanent Marker';font-size:1.4rem;" contenteditable="true">This isn't homework.</p><p contenteditable="true">Pick what you need. Start small. It's a continuation of the room — chaotic, useful, real.</p><div class="hidden-until-hover" contenteditable="true">💡 Tip: Click any text to personalize. Fill in the blanks throughout!</div></div><div><ul class="prompt-list"><li contenteditable="true" class="shake-on-hover">Expand your A3 worksheet prompts</li><li contenteditable="true" class="shake-on-hover">Map resources & people</li><li contenteditable="true" class="shake-on-hover">Copy templates & follow up</li></ul></div></div><h2 contenteditable="true">ZONE 1: WHO ARE YOU (DEEPER DIVE)</h2><p class="guide-text">GO BEYOND THE SURFACE LEVEL</p><div class="grid-2"><div><ul class="prompt-list"><li class="prompt-text">What's the story behind your career path? <div class="user-response" contenteditable="true"></div></li><li class="prompt-text">What's the story behind your creative work? <div class="user-response" contenteditable="true"></div></li><li class="prompt-text">What do people misunderstand about what you do? <div class="user-response" contenteditable="true"></div></li><li class="prompt-text">What would surprise people who only know one side of you? <div class="user-response" contenteditable="true"></div></li></ul></div><div class="speech-blob hover-reveal"><p contenteditable="true"><strong>Reflection Questions:</strong></p><p class="prompt-text">If you could only keep one identity (career OR creative), which would you choose? <div class="user-response" contenteditable="true"></div></p><p class="prompt-text">What would change if everyone in your professional life knew about your creative work? <div class="user-response" contenteditable="true"></div></p><span class="reveal-content">These questions reveal your true priorities</span></div></div><div class="deadline-strip"><span>Owner: <span class="fill-line" contenteditable="true"></span></span><span>Deadline: <span class="fill-line" contenteditable="true"></span></span></div></div><div class="page-indicator">2/7</div></div>`,
+    `<div class="page"><div class="page-content"><h2 contenteditable="true">🛠️ ZONE 2: WHAT ARE YOU BUILDING (PROJECT CLARITY)</h2><p class="guide-text">TURN VAGUE IDEAS INTO SPECIFIC PROJECTS</p><div class="grid-2"><div class="blob fade-reveal-section"><h4 contenteditable="true">If your idea is still fuzzy:</h4><ul class="prompt-list"><li class="prompt-text">What problem are you trying to solve? <div class="user-response" contenteditable="true"></div></li><li class="prompt-text">Who would benefit if this existed? <div class="user-response" contenteditable="true"></div></li><li class="prompt-text">What's the smallest version you could test in 2 weeks? <div class="user-response" contenteditable="true"></div></li></ul></div><div class="blob fade-reveal-section"><h4 contenteditable="true">If your idea is clearer:</h4><ul class="prompt-list"><li class="prompt-text">What would success look like in 3/6/12 months? <div class="user-response" contenteditable="true"></div></li><li class="prompt-text">What's the first milestone? <div class="user-response" contenteditable="true"></div></li><li class="prompt-text">What resources do you need? <div class="user-response" contenteditable="true"></div></li></ul></div></div><div class="cloud-bubble"><p contenteditable="true"><strong>Project definition:</strong> I'm building <span class="fill-line" contenteditable="true"></span> for <span class="fill-line" contenteditable="true"></span> to solve <span class="fill-line" contenteditable="true"></span>.</p></div><h2 contenteditable="true">📦 ZONE 3: WHAT DO YOU NEED</h2><div class="grid-3"><div class="flow-blob magic-sparkle"><h4>Skills:</h4><span class="fill-line" contenteditable="true"></span><p class="prompt-text">What do you need to learn or hire for? <div class="user-response" contenteditable="true"></div></p></div><div class="flow-blob magic-sparkle"><h4>People:</h4><span class="fill-line" contenteditable="true"></span><p class="prompt-text">Who could help? Collaborators, mentors, introducers? <div class="user-response" contenteditable="true"></div></p></div><div class="flow-blob magic-sparkle"><h4>Resources:</h4><span class="fill-line" contenteditable="true"></span><p class="prompt-text">Time, money, tools, spaces, permission? <div class="user-response" contenteditable="true"></div></p></div></div></div><div class="page-indicator">3/7</div></div>`,
+    `<div class="page"><div class="page-content"><h2 contenteditable="true">🔥 ZONE 4: WHAT DRIVES YOU C‑RÉZY</h2><div class="grid-2"><div class="blob"><h4>Personal:</h4><span class="fill-line" contenteditable="true"></span><p class="prompt-text">What frustrates you deeply? <div class="user-response" contenteditable="true"></div></p></div><div class="blob"><h4>Market:</h4><span class="fill-line" contenteditable="true"></span><p class="prompt-text">What's missing in your industry? <div class="user-response" contenteditable="true"></div></p></div></div><div class="speech-blob hover-reveal"><p contenteditable="true"><strong>Turning c‑rézy into action:</strong> <span class="fill-line" contenteditable="true"></span></p><span class="reveal-content">Frustration = fuel.</span></div><div><span class="expand-trigger" data-target="funnelDemo">⚡ Expand IDEA FUNNEL</span></div><div id="funnelDemo" class="expand-block"><div style="display:flex;justify-content:center;flex-wrap:wrap;gap:1rem;"><span class="badge">🤔 FUZZY</span><span>→</span><span class="badge">📐 SPECIFIC</span><span>→</span><span class="badge">✅ COMMITTED</span></div><p class="prompt-text">My project in one sentence: <span class="fill-line" contenteditable="true"></span></p><p class="prompt-text">Smallest test this week: <div class="user-response" contenteditable="true"></div></p></div><h2 contenteditable="true">📌 ZONE 5: ACTION PLAN</h2><div class="grid-3"><div class="speech-blob"><h4>This week:</h4><span class="fill-line" contenteditable="true"></span><div class="user-response" contenteditable="true"></div></div><div class="speech-blob"><h4>This month:</h4><span class="fill-line" contenteditable="true"></span><div class="user-response" contenteditable="true"></div></div><div class="speech-blob"><h4>This quarter:</h4><span class="fill-line" contenteditable="true"></span><div class="user-response" contenteditable="true"></div></div></div></div><div class="page-indicator">4/7</div></div>`,
+    `<div class="page"><div class="page-content"><h2 contenteditable="true">✉️ FOLLOW‑UP TEMPLATES</h2><div class="grid-2"><div class="cloud-bubble hover-container"><span class="badge">T1: Collaboration</span><p contenteditable="true">Subject: Following up from COL(LAB)...<br><br>Hi [Name],... would you have 15min?</p><div class="hidden-until-hover"><p contenteditable="true">📧 Copy, paste, personalize.</p></div></div><div class="cloud-bubble"><span class="badge">T2: Skill-share</span><p contenteditable="true">Subject: quick question about [expertise]...<br><br>Hey [Name], love your perspective.</p></div><div class="cloud-bubble"><span class="badge">T3: Resource share</span><p contenteditable="true">I came across [resource] and thought of you!</p></div><div class="cloud-bubble"><span class="badge">T4: Accountability</span><p contenteditable="true">Looking for accountability partners, interested?</p></div></div><div class="speech-blob"><span class="badge">T5: General connection</span><p contenteditable="true">Great to meet you at COL(LAB). Let's stay connected.</p></div></div><div class="page-indicator">5/7</div></div>`,
+    `<div class="page"><div class="page-content"><h2 contenteditable="true">⏱️ BEST PRACTICES</h2><div class="grid-2"><div class="flow-blob"><h4>Timing:</h4><ul class="prompt-list"><li>Within 48 hours</li><li>1 week for resources</li><li>2 weeks for accountability</li></ul></div><div class="flow-blob"><h4>Approach:</h4><ul class="prompt-list"><li>Be specific</li><li>Lead with value</li><li>Keep it human</li></ul></div></div><div class="blob hover-reveal"><h4>🚩 Red flags to avoid</h4><ul class="prompt-list"><li>Don't pitch everything</li><li>Don't ask huge favors early</li></ul><span class="reveal-content">Avoid these mistakes</span></div><h2 contenteditable="true">📅 30‑DAY CHECK‑IN</h2><ul class="prompt-list"><li class="prompt-text">What from COL(LAB) is still alive? <div class="user-response" contenteditable="true"></div></li><li class="prompt-text">What changed? <div class="user-response" contenteditable="true"></div></li></ul><div class="deadline-strip"><span>Owner: <span class="fill-line" contenteditable="true"></span></span><span>30-day check: <span class="fill-line" contenteditable="true"></span></span></div></div><div class="page-indicator">6/7</div></div>`,
+    `<div class="page"><div class="page-content"><h2 contenteditable="true">🔗 RESOURCES & NEXT STEPS</h2><div class="grid-2"><div class="cloud-bubble hover-container"><h4>C‑réer Community</h4><ul class="prompt-list"><li>Instagram: @c.reer</li><li>#WorkHardCreerHarder</li></ul><div class="hidden-until-hover">🔗 Join WhatsApp group!</div></div><div class="speech-blob hover-reveal"><h4>🔮 Coming soon: Membership</h4><ul class="prompt-list"><li>Accountability circles</li><li>Skill-shares</li></ul><div class="btn-mock">DM 'MEMBERSHIP'</div><span class="reveal-content">Launching Q3</span></div></div><h2 contenteditable="true">✅ YOUR NEXT STEPS CHECKLIST</h2><ul class="checklist"><li contenteditable="true">Review A3 worksheet</li><li contenteditable="true">Identify 3-5 people to follow up</li><li contenteditable="true">Send first message</li><li contenteditable="true">Block 30min for action</li><li contenteditable="true">Set 30-day reminder</li></ul><hr style="border-top:4px dotted #0A1636;"><div style="display:flex;justify-content:center;gap:1rem;"><span style="font-size:2rem;" contenteditable="true">WORK HARD.<br>C‑RÉER HARDER.</span><span class="badge">action emerges</span></div></div><div class="page-indicator">7/7</div></div>`
+  ];
+
+  let currentPagesHTML = [...getOriginalPagesHTML()];
+  let selectedElement = null;
+  let editModeOn = true;
+
+  function renderAllPages() {
+    const container = document.getElementById('allPagesContainer');
+    container.innerHTML = currentPagesHTML.join('');
+    attachGlobalInteractivity();
+    if(!editModeOn) document.body.classList.add('edit-mode-off');
+    else document.body.classList.remove('edit-mode-off');
+  }
+
+  function attachGlobalInteractivity() {
+    // checklist toggle
+    document.querySelectorAll('.checklist li').forEach(li => {
+      li.addEventListener('click', (e) => { e.stopPropagation(); li.classList.toggle('checked'); });
+    });
+    // expand triggers
+    document.querySelectorAll('.expand-trigger').forEach(tr => {
+      const targetId = tr.getAttribute('data-target');
+      const block = document.getElementById(targetId);
+      if(block) tr.addEventListener('click', () => block.classList.toggle('expanded'));
+    });
+    // fade-reveal sections on scroll (simple)
+    const faders = document.querySelectorAll('.fade-reveal-section');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('revealed'); });
+    }, { threshold: 0.2 });
+    faders.forEach(el => observer.observe(el));
+    // selectable elements for admin effects
+    document.querySelectorAll('.blob, .cloud-bubble, .speech-blob, .flow-blob, h1, h2, h3, p, .badge, .btn-mock').forEach(el => {
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', (e) => { e.stopPropagation(); setSelected(el); });
+    });
+    // sparkle effect on magic-sparkle click
+    document.querySelectorAll('.magic-sparkle').forEach(el => {
+      el.addEventListener('click', () => { el.classList.add('sparkleFlash'); setTimeout(() => el.classList.remove('sparkleFlash'), 300); });
+    });
+  }
+
+  function setSelected(el) {
+    if(selectedElement) selectedElement.classList.remove('selected-element');
+    selectedElement = el;
+    selectedElement.classList.add('selected-element');
+    document.getElementById('selectionInfo').innerText = `Selected: ${el.tagName}`;
+  }
+
+  // admin effects
+  function triggerShake() { if(selectedElement) { selectedElement.classList.add('shake-on-hover'); selectedElement.style.animation = 'shake 0.3s ease-in-out 0s 2'; setTimeout(() => selectedElement.style.animation = '', 600); } else alert('Select an element'); }
+  function triggerGrow() { if(selectedElement) { selectedElement.classList.add('grow-effect-temp'); selectedElement.style.animation = 'growPulse 0.4s ease-out'; setTimeout(() => selectedElement.style.animation = '', 400); } else alert('Select element'); }
+  function triggerHighlight() { if(selectedElement) { selectedElement.style.transition = '0.1s'; selectedElement.style.boxShadow = '0 0 0 4px #EA641B'; setTimeout(() => selectedElement.style.boxShadow = '', 600); } else alert('Select element'); }
+  function triggerSparkle() { if(selectedElement) { selectedElement.style.animation = 'sparkleFlash 0.3s ease-out'; setTimeout(() => selectedElement.style.animation = '', 300); } else alert('Select element'); }
+  function addTooltip() { if(selectedElement) { selectedElement.classList.add('hover-reveal'); let span = document.createElement('span'); span.className = 'reveal-content'; span.textContent = document.getElementById('effectText').value || '✨ Extra insight'; selectedElement.appendChild(span); } else alert('Select element'); }
+  function addHiddenReveal() { if(selectedElement) { selectedElement.classList.add('hover-container'); let div = document.createElement('div'); div.className = 'hidden-until-hover'; div.innerHTML = `<p contenteditable="true">${document.getElementById('effectText').value || 'Hidden content appears on hover'}</p>`; selectedElement.appendChild(div); } else alert('Select element'); }
+
+  // Background controls
+  function applyBgColorToCurrent() { document.querySelectorAll('.page').forEach(p => p.style.backgroundColor = document.getElementById('pageBgColor').value); }
+  function applyBgToAllPages() { let color = document.getElementById('pageBgColor').value; currentPagesHTML = currentPagesHTML.map(html => html.replace(/background-color:[^;]*;?/gi, '')); renderAllPages(); document.querySelectorAll('.page').forEach(p => p.style.backgroundColor = color); }
+  function setBackgroundImage() { let url = document.getElementById('bgImageUrl').value; let file = document.getElementById('bgImageUpload').files[0]; let fit = document.getElementById('bgFit').value; let setBg = (src) => { document.querySelectorAll('.page').forEach(p => { p.style.backgroundImage = `url(${src})`; p.style.backgroundSize = fit; p.style.backgroundRepeat = fit==='repeat'?'repeat':'no-repeat'; p.style.backgroundPosition = 'center'; }); }; if(file) { let reader = new FileReader(); reader.onload = e => setBg(e.target.result); reader.readAsDataURL(file); } else if(url) setBg(url); }
+  function clearBackgroundImage() { document.querySelectorAll('.page').forEach(p => { p.style.backgroundImage = ''; p.style.backgroundColor = ''; }); }
+
+  // PDF export — each page fits A4
+  function exportAllPagesAsPDF() {
+    const wrapper = document.createElement('div');
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(p => { let clone = p.cloneNode(true); clone.style.margin = '0'; clone.style.boxShadow = 'none'; clone.style.pageBreakAfter = 'always'; wrapper.appendChild(clone); });
+    html2pdf().set({ margin: 0, filename: 'COLLAB_Workbook_Full.pdf', html2canvas: { scale: 2, backgroundColor: '#ffffff' }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } }).from(wrapper).save();
+  }
+
+  // Save/load/reset
+  function saveToLocal() { localStorage.setItem('collabWorkbookPages', JSON.stringify(currentPagesHTML)); alert('Saved!'); }
+  function loadFromLocal() { let saved = localStorage.getItem('collabWorkbookPages'); if(saved) { currentPagesHTML = JSON.parse(saved); renderAllPages(); alert('Loaded'); } else alert('No save'); }
+  function resetToOriginal() { currentPagesHTML = getOriginalPagesHTML(); renderAllPages(); alert('Reset to original'); }
+
+  // Admin panel triple-tap
+  let tapCount = 0, tapTimer;
+  document.body.addEventListener('click', () => { tapCount++; if(tapTimer) clearTimeout(tapTimer); tapTimer = setTimeout(() => { tapCount = 0; }, 800); if(tapCount === 3) { document.getElementById('adminPanel').classList.toggle('visible'); tapCount = 0; } });
+
+  // Edit mode toggle
+  function toggleEditMode() {
+    editModeOn = !editModeOn;
+    const btn = document.getElementById('editModeToggleBtn');
+    if(editModeOn) { document.body.classList.remove('edit-mode-off'); btn.textContent = '✏️ Edit Mode: ON'; btn.style.background = '#4a8ab5'; } 
+    else { document.body.classList.add('edit-mode-off'); btn.textContent = '📄 Edit Mode: OFF (Preview)'; btn.style.background = '#EA641B'; }
+  }
+
+  // Event bindings
+  document.getElementById('pdfExportBtn').addEventListener('click', exportAllPagesAsPDF);
+  document.getElementById('editModeToggleBtn').addEventListener('click', toggleEditMode);
+  document.getElementById('shakeBtn').addEventListener('click', triggerShake);
+  document.getElementById('growBtn').addEventListener('click', triggerGrow);
+  document.getElementById('highlightBtn').addEventListener('click', triggerHighlight);
+  document.getElementById('sparkleBtn').addEventListener('click', triggerSparkle);
+  document.getElementById('addTooltipBtn').addEventListener('click', addTooltip);
+  document.getElementById('addHiddenBtn').addEventListener('click', addHiddenReveal);
+  document.getElementById('applyBgColorBtn').addEventListener('click', applyBgColorToCurrent);
+  document.getElementById('applyBgAllBtn').addEventListener('click', applyBgToAllPages);
+  document.getElementById('setBgImageBtn').addEventListener('click', setBackgroundImage);
+  document.getElementById('clearBgBtn').addEventListener('click', clearBackgroundImage);
+  document.getElementById('saveAllBtn').addEventListener('click', saveToLocal);
+  document.getElementById('loadAllBtn').addEventListener('click', loadFromLocal);
+  document.getElementById('resetPagesBtn').addEventListener('click', resetToOriginal);
+  
+  renderAllPages();
+</script>
+</body>
+</html>
