@@ -160,9 +160,9 @@
     .fill-line, .user-response {
       border: none;
       border-bottom: 3px solid #0A1636;
-      background: transparent;
+      background: rgba(255,255,255,0.4);
       font-family: 'Kalam', cursive;
-      font-size: 1rem;
+      font-size: 2rem;
       min-width: 140px;
       padding: 0.2rem 0.5rem;
       color: #0A1636;
@@ -201,7 +201,7 @@
       justify-content: center;
       gap: 6px;
       font-family: 'Permanent Marker', cursive;
-      background: #EA641B20;
+      background: #EA641B;
       padding: 0.2rem 1rem;
       border-radius: 40px;
       transition: all 0.2s;
@@ -290,8 +290,8 @@
     @media print {
       body { background: white; padding: 0; margin: 0; }
       .pdf-export-btn, .admin-panel { display: none !important; }
-      .page { box-shadow: none; border: 1px solid #ccc; page-break-after: always; margin: 0; padding: 1.5rem; background: red !important; }
-      .fill-line, .user-response { border-bottom: 2px solid #000 !important; }
+      .page { box-shadow: none; border: 0px solid #ccc; page-break-after: always; margin: 0; padding: 1.5rem; background: white !important; }
+      .fill-line, .user-response { border-bottom: 2px solid #000 !important; background: rgba(0,0,0,0.3);3 }
       .expand-block { max-height: none !important; padding: 0.8rem 1rem !important; display: block !important; }
       .hidden-until-hover { opacity: 1 !important; max-height: none !important; padding: 0.8rem 1rem !important; display: block !important; }
       .grid-2, .grid-3 { display: block !important; }
