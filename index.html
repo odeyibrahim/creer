@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YENO LABEL — Standalone WooCommerce Theme Builder</title>
+    <title>YENO LABEL — Block Theme Builder</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #f5f5f7;
@@ -18,7 +17,6 @@
             line-height: 1.5;
             padding: 2rem;
         }
-
         .container {
             max-width: 1000px;
             margin: 0 auto;
@@ -27,188 +25,85 @@
             padding: 2rem;
             box-shadow: 0 10px 40px rgba(0,0,0,0.05);
         }
-
-        h1 {
-            font-size: 1.5rem;
-            font-weight: 500;
-            letter-spacing: -0.02em;
-            margin-bottom: 0.25rem;
-        }
-
-        .subhead {
-            color: #86868b;
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-            border-left: 2px solid #e0e0e0;
-            padding-left: 1rem;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 0.75rem;
-            background: #f5f5f7;
-            border-radius: 12px;
-            padding: 1rem;
-            margin: 1rem 0;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-        }
-
-        .feature-item::before {
-            content: "✓";
-            color: #2c7a4d;
-            font-weight: bold;
-        }
-
-        .file-list {
-            background: #f5f5f7;
-            border-radius: 12px;
-            padding: 1rem;
-            margin: 1.5rem 0;
-        }
-
-        .file-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #e0e0e0;
-            font-size: 0.85rem;
-        }
-
-        .file-item:last-child {
-            border-bottom: none;
-        }
-
-        .file-name {
-            font-family: monospace;
-        }
-
-        button {
-            background: #1d1d1f;
-            color: white;
-            border: none;
-            padding: 0.85rem 1.5rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-            border-radius: 40px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 1rem;
-            transition: background 0.2s;
-        }
-
-        button:hover {
-            background: #333;
-        }
-
-        .note {
-            margin-top: 1.5rem;
-            padding-top: 1rem;
-            border-top: 1px solid #e0e0e0;
-            font-size: 0.75rem;
-            color: #86868b;
-            text-align: center;
-        }
-
-        .success {
-            background: #e8f5e9;
-            color: #2e7d32;
-            padding: 0.75rem;
-            border-radius: 10px;
-            margin-top: 1rem;
-            text-align: center;
-        }
-
-        hr {
-            margin: 1.5rem 0;
-        }
-
-        .badge {
-            background: #e8f5e9;
-            color: #2e7d32;
-            font-size: 0.7rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 20px;
-            margin-left: 0.5rem;
-        }
+        h1 { font-size: 1.5rem; font-weight: 500; margin-bottom: 0.25rem; }
+        .subhead { color: #86868b; font-size: 0.9rem; margin-bottom: 1.5rem; border-left: 2px solid #e0e0e0; padding-left: 1rem; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.75rem; background: #f5f5f7; border-radius: 12px; padding: 1rem; margin: 1rem 0; }
+        .feature-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; }
+        .feature-item::before { content: "✓"; color: #2c7a4d; font-weight: bold; }
+        .file-list { background: #f5f5f7; border-radius: 12px; padding: 1rem; margin: 1.5rem 0; }
+        .file-item { display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #e0e0e0; font-size: 0.85rem; }
+        .file-item:last-child { border-bottom: none; }
+        .file-name { font-family: monospace; }
+        button { background: #1d1d1f; color: white; border: none; padding: 0.85rem 1.5rem; font-size: 0.9rem; font-weight: 500; border-radius: 40px; cursor: pointer; width: 100%; margin-top: 1rem; transition: background 0.2s; }
+        button:hover { background: #333; }
+        .note { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #e0e0e0; font-size: 0.75rem; color: #86868b; text-align: center; }
+        .success { background: #e8f5e9; color: #2e7d32; padding: 0.75rem; border-radius: 10px; margin-top: 1rem; text-align: center; }
+        hr { margin: 1.5rem 0; }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>YENO LABEL</h1>
-    <div class="subhead">Standalone WooCommerce Theme — Complete UI Control</div>
+    <div class="subhead">Block Theme — Full Site Editor Support</div>
 
     <div class="feature-grid">
-        <div class="feature-item">Full WooCommerce integration</div>
+        <div class="feature-item">Full Site Editor (Appearance → Editor)</div>
+        <div class="feature-item">Edit header/footer with blocks</div>
+        <div class="feature-item">Edit all templates visually</div>
+        <div class="feature-item">WooCommerce block support</div>
         <div class="feature-item">Loading screen animation</div>
         <div class="feature-item">Discount modal (first visit)</div>
-        <div class="feature-item">Sign-in modal</div>
         <div class="feature-item">Slide panel (product quick view)</div>
         <div class="feature-item">Sticky footer with breadcrumbs</div>
         <div class="feature-item">Custom size selector (sizes 6-20)</div>
         <div class="feature-item">AJAX add to cart</div>
-        <div class="feature-item">Montserrat typography (14px base)</div>
+        <div class="feature-item">Montserrat typography</div>
         <div class="feature-item">Wedding-invite aesthetic</div>
-        <div class="feature-item">Mobile responsive</div>
-        <div class="feature-item">CSS-only accordion</div>
-        <div class="feature-item">Newsletter AJAX subscription</div>
-        <div class="feature-item">Product quick view AJAX</div>
-        <div class="feature-item">Cart/Checkout styling</div>
-        <div class="feature-item">My Account styling</div>
+        <div class="feature-item">theme.json for full control</div>
     </div>
 
     <div class="file-list">
-        <div class="file-item"><span class="file-name">📄 style.css</span><span>~2 KB</span></div>
-        <div class="file-item"><span class="file-name">📄 functions.php</span><span>~18 KB</span></div>
+        <div class="file-item"><span class="file-name">📄 style.css</span><span>~1 KB</span></div>
+        <div class="file-item"><span class="file-name">📄 theme.json</span><span>~8 KB</span></div>
+        <div class="file-item"><span class="file-name">📄 functions.php</span><span>~12 KB</span></div>
         <div class="file-item"><span class="file-name">📁 assets/css/yeno-theme.css</span><span>~15 KB</span></div>
         <div class="file-item"><span class="file-name">📁 assets/js/yeno-theme.js</span><span>~10 KB</span></div>
-        <div class="file-item"><span class="file-name">📁 woocommerce/ (template overrides)</span><span>~8 KB</span></div>
+        <div class="file-item"><span class="file-name">📁 templates/*.html</span><span>~8 KB</span></div>
+        <div class="file-item"><span class="file-name">📁 parts/*.html</span><span>~4 KB</span></div>
         <div class="file-item"><span class="file-name">📄 screenshot.png</span><span>~0.5 KB</span></div>
     </div>
 
-    <button id="downloadZipBtn">📦 DOWNLOAD YENO LABEL THEME (ZIP)</button>
+    <button id="downloadZipBtn">📦 DOWNLOAD YENO BLOCK THEME (ZIP)</button>
     <div id="status"></div>
 
     <hr>
 
     <details>
-        <summary style="cursor: pointer; font-size: 0.85rem; color: #86868b;">📋 View full feature list</summary>
+        <summary style="cursor: pointer; font-size: 0.85rem; color: #86868b;">📋 What makes this a Block Theme?</summary>
         <div style="margin-top: 1rem; font-size: 0.85rem; line-height: 1.6;">
-            <p><strong>🎨 Built-in Features:</strong></p>
+            <p><strong>🎨 Block Theme Features:</strong></p>
             <ul style="margin-left: 1.5rem;">
-                <li>WooCommerce-ready — full shop, cart, checkout, my account support</li>
-                <li>Loading screen with brand animation</li>
-                <li>Discount modal on first visit (cookie-controlled)</li>
-                <li>Sign-in modal for customers</li>
-                <li>Slide panel for product quick view</li>
-                <li>Sticky footer with breadcrumbs, help dropdown, filter dropdown</li>
-                <li>Custom add-to-cart with size selector (sizes 6,8,10,12,14,16,18,20)</li>
-                <li>AJAX add to cart with feedback</li>
-                <li>Newsletter subscription with AJAX</li>
-                <li>Uniform typography (Montserrat, 14px base, weight hierarchy)</li>
-                <li>Responsive design (mobile-optimized)</li>
-                <li>WooCommerce template overrides (cart, checkout, single product)</li>
+                <li><code>theme.json</code> — defines colors, typography, spacing, and block settings</li>
+                <li><code>/templates/</code> — HTML templates for index, single, page, archive, search, 404</li>
+                <li><code>/templates/woocommerce/</code> — WooCommerce templates (archive-product, single-product, cart, checkout)</li>
+                <li><code>/parts/</code> — Reusable template parts (header, footer)</li>
+                <li>Full Site Editor — edit everything visually in Appearance → Editor</li>
+                <li>Block-based header and footer — drag-and-drop customizable</li>
             </ul>
+            <p style="margin-top: 0.75rem;"><strong>Same UI features as before:</strong> loading screen, modals, slide panel, sticky footer, custom add-to-cart.</p>
         </div>
     </details>
 
     <div class="note">
-        ⚡ After downloading, go to WordPress → Appearance → Themes → Add New → Upload Theme.<br>
-        Activate "YENO LABEL" — your WooCommerce store will have a complete minimalist makeover.
+        ⚡ After installing, go to <strong>Appearance → Editor</strong> to customize headers, footers, and templates with blocks.<br>
+        All minimalist styling is preserved and editable.
     </div>
 </div>
 
 <script>
     (function() {
         // ============================================
-        // COMPLETE STANDALONE THEME FILES
+        // COMPLETE BLOCK THEME FILES
         // ============================================
 
         // style.css
@@ -217,7 +112,7 @@ Theme Name: YENO LABEL
 Theme URI: https://yenolabel.com
 Author: YENO LABEL
 Author URI: https://yenolabel.com
-Description: A minimalist WooCommerce-ready fashion theme with loading screen, modals, slide panel, custom add-to-cart, and elegant typography.
+Description: A minimalist WooCommerce-ready block theme with loading screen, modals, slide panel, and elegant typography.
 Version: 1.0.0
 License: GPL v2 or later
 Text Domain: yeno-label
@@ -226,52 +121,174 @@ Tested up to: 6.7
 Requires PHP: 7.4
 WooCommerce: requires at least: 7.0
 WooCommerce: tested up to: 9.0
-*/
+*/`;
 
-/* Theme supports */
-body {
-    margin: 0;
-    padding: 0;
+        // theme.json — Full block editor settings
+        const themeJson = `{
+  "version": 3,
+  "settings": {
+    "color": {
+      "palette": [
+        { "slug": "foreground", "color": "#1A1A1A", "name": "Foreground" },
+        { "slug": "background", "color": "#FFFFFF", "name": "Background" },
+        { "slug": "primary", "color": "#1A1A1A", "name": "Primary" },
+        { "slug": "secondary", "color": "#2A2A2A", "name": "Secondary" },
+        { "slug": "tertiary", "color": "#fbe9a2", "name": "Tertiary" },
+        { "slug": "footer-bg", "color": "#bdddff", "name": "Footer Background" }
+      ],
+      "link": true
+    },
+    "typography": {
+      "fontFamilies": [
+        {
+          "fontFamily": "\"Montserrat\", sans-serif",
+          "name": "Montserrat",
+          "slug": "montserrat"
+        }
+      ],
+      "fontSizes": [
+        { "slug": "small", "size": "12px", "name": "Small" },
+        { "slug": "medium", "size": "14px", "name": "Medium" },
+        { "slug": "large", "size": "18px", "name": "Large" },
+        { "slug": "x-large", "size": "24px", "name": "X-Large" }
+      ],
+      "fontWeight": {
+        "300": "300",
+        "400": "400",
+        "500": "500"
+      }
+    },
+    "spacing": {
+      "units": ["px", "em", "rem", "vh", "vw"],
+      "blockGap": true,
+      "padding": true,
+      "margin": true
+    },
+    "layout": {
+      "contentSize": "1200px",
+      "wideSize": "1400px"
+    },
+    "border": {
+      "radius": false,
+      "color": true,
+      "style": true,
+      "width": true
+    },
+    "blocks": {
+      "core/heading": {
+        "typography": {
+          "textTransform": "uppercase",
+          "letterSpacing": "2px"
+        }
+      },
+      "core/paragraph": {
+        "typography": {
+          "fontWeight": "300",
+          "lineHeight": "1.65"
+        }
+      },
+      "core/button": {
+        "typography": {
+          "textTransform": "uppercase",
+          "letterSpacing": "2px",
+          "fontSize": "12px"
+        },
+        "border": {
+          "radius": "0px"
+        }
+      },
+      "woocommerce/product-collection": {
+        "layout": {
+          "columnCount": 4
+        }
+      }
+    }
+  },
+  "styles": {
+    "color": {
+      "background": "#FFFFFF",
+      "text": "#1A1A1A"
+    },
+    "typography": {
+      "fontFamily": "var(--wp--preset--font-family--montserrat)",
+      "fontSize": "14px",
+      "fontWeight": "300"
+    },
+    "elements": {
+      "h1": {
+        "typography": {
+          "fontWeight": "500",
+          "letterSpacing": "4px",
+          "textTransform": "uppercase",
+          "fontSize": "24px"
+        }
+      },
+      "h2": {
+        "typography": {
+          "fontWeight": "400",
+          "letterSpacing": "3px",
+          "textTransform": "uppercase",
+          "fontSize": "18px"
+        }
+      },
+      "h3": {
+        "typography": {
+          "fontWeight": "400",
+          "letterSpacing": "2px",
+          "textTransform": "uppercase",
+          "fontSize": "14px"
+        }
+      },
+      "link": {
+        "color": {
+          "text": "#1A1A1A"
+        },
+        ":hover": {
+          "color": {
+            "text": "#666666"
+          }
+        }
+      },
+      "button": {
+        "color": {
+          "background": "#1A1A1A",
+          "text": "#FFFFFF"
+        },
+        "typography": {
+          "fontWeight": "400"
+        },
+        ":hover": {
+          "color": {
+            "background": "#333333"
+          }
+        }
+      }
+    }
+  },
+  "templateParts": [
+    { "name": "header", "area": "header" },
+    { "name": "footer", "area": "footer" }
+  ],
+  "customTemplates": [
+    { "name": "home", "title": "Home", "postTypes": [ "page" ] }
+  ]
 }`;
 
-        // functions.php — Full standalone theme
+        // functions.php
         const functionsPHP = `<?php
 /**
- * YENO LABEL — Standalone WooCommerce Theme
- * Complete functionality with no parent theme dependency
+ * YENO LABEL Block Theme Functions
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-// ========== THEME SETUP ==========
-add_action( 'after_setup_theme', 'yeno_theme_setup' );
-function yeno_theme_setup() {
-    // Add theme support
-    add_theme_support( 'woocommerce' );
-    add_theme_support( 'wc-product-gallery-zoom' );
-    add_theme_support( 'wc-product-gallery-lightbox' );
-    add_theme_support( 'wc-product-gallery-slider' );
-    add_theme_support( 'post-thumbnails' );
-    add_theme_support( 'title-tag' );
-    add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
-    add_theme_support( 'custom-logo' );
-    add_theme_support( 'responsive-embeds' );
-    
-    // Register menus
-    register_nav_menus( array(
-        'primary' => esc_html__( 'Primary Menu', 'yeno-label' ),
-        'footer'  => esc_html__( 'Footer Menu', 'yeno-label' ),
-    ) );
-}
-
-// ========== ENQUEUE SCRIPTS & STYLES ==========
-add_action( 'wp_enqueue_scripts', 'yeno_enqueue_scripts' );
-function yeno_enqueue_scripts() {
+// Enqueue scripts and styles
+add_action( 'wp_enqueue_scripts', 'yeno_block_theme_scripts' );
+function yeno_block_theme_scripts() {
     // Theme CSS
-    wp_enqueue_style( 'yeno-theme-style', get_stylesheet_uri(), array(), '1.0.0' );
-    wp_enqueue_style( 'yeno-main-style', get_template_directory_uri() . '/assets/css/yeno-theme.css', array(), '1.0.0' );
+    wp_enqueue_style( 'yeno-theme-style', get_template_directory_uri() . '/assets/css/yeno-theme.css', array(), '1.0.0' );
     
     // Google Fonts
     wp_enqueue_style( 'montserrat', 'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap', array(), null );
@@ -286,60 +303,15 @@ function yeno_enqueue_scripts() {
     ));
 }
 
-// ========== ADD BODY CLASSES ==========
-add_filter( 'body_class', 'yeno_body_classes' );
-function yeno_body_classes( $classes ) {
-    $classes[] = 'yeno-brand-theme';
-    if ( is_woocommerce() || is_cart() || is_checkout() || is_account_page() ) {
-        $classes[] = 'yeno-woocommerce-page';
-    }
-    if ( is_product() ) $classes[] = 'yeno-single-product';
-    if ( is_shop() ) $classes[] = 'yeno-shop-archive';
-    if ( is_cart() ) $classes[] = 'yeno-cart-page';
-    if ( is_checkout() ) $classes[] = 'yeno-checkout-page';
-    return $classes;
-}
-
-// ========== WOOCOMMERCE CUSTOMIZATIONS ==========
-remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10 );
-remove_action( 'woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10 );
-
-add_action( 'woocommerce_before_main_content', 'yeno_content_wrapper_start', 10 );
-function yeno_content_wrapper_start() {
-    echo '<main class="yeno-main-content"><div class="yeno-container">';
-}
-
-add_action( 'woocommerce_after_main_content', 'yeno_content_wrapper_end', 10 );
-function yeno_content_wrapper_end() {
-    echo '</div></main>';
-}
-
-// Change number of products per row
-add_filter( 'loop_shop_columns', 'yeno_shop_columns', 20 );
-function yeno_shop_columns( $columns ) {
-    return 4;
-}
-
-// Change products per page
-add_filter( 'loop_shop_per_page', 'yeno_shop_per_page', 20 );
-function yeno_shop_per_page( $per_page ) {
-    return 12;
-}
-
-// Custom product title in loop
-remove_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_title', 10 );
-add_action( 'woocommerce_shop_loop_item_title', 'yeno_product_title', 10 );
-function yeno_product_title() {
-    echo '<h2 class="yeno-product-title">' . get_the_title() . '</h2>';
-}
-
-// Custom add-to-cart button text
-add_filter( 'woocommerce_product_add_to_cart_text', 'yeno_add_to_cart_text', 10, 2 );
-function yeno_add_to_cart_text( $text, $product ) {
-    if ( $product->is_type( 'simple' ) ) {
-        return __( 'SHOP NOW', 'yeno-label' );
-    }
-    return $text;
+// Add WooCommerce support
+add_action( 'after_setup_theme', 'yeno_block_theme_setup' );
+function yeno_block_theme_setup() {
+    add_theme_support( 'woocommerce' );
+    add_theme_support( 'wc-product-gallery-zoom' );
+    add_theme_support( 'wc-product-gallery-lightbox' );
+    add_theme_support( 'wc-product-gallery-slider' );
+    add_theme_support( 'post-thumbnails' );
+    add_theme_support( 'responsive-embeds' );
 }
 
 // Custom size selector on single product
@@ -374,7 +346,7 @@ function yeno_custom_size_selector() {
     <?php
 }
 
-// ========== LOADING SCREEN ==========
+// Loading screen
 add_action( 'wp_footer', 'yeno_loading_screen' );
 function yeno_loading_screen() {
     if ( is_admin() || wp_doing_ajax() ) return;
@@ -392,7 +364,7 @@ function yeno_loading_screen() {
     <?php
 }
 
-// ========== DISCOUNT MODAL ==========
+// Discount modal
 add_action( 'wp_footer', 'yeno_discount_modal' );
 function yeno_discount_modal() {
     if ( is_admin() || wp_doing_ajax() ) return;
@@ -415,7 +387,7 @@ function yeno_discount_modal() {
     <?php
 }
 
-// ========== SIGN-IN MODAL ==========
+// Sign-in modal
 add_action( 'wp_footer', 'yeno_signin_modal' );
 function yeno_signin_modal() {
     if ( is_admin() || wp_doing_ajax() ) return;
@@ -437,7 +409,7 @@ function yeno_signin_modal() {
     <?php
 }
 
-// ========== SLIDE PANEL ==========
+// Slide panel
 add_action( 'wp_footer', 'yeno_slide_panel' );
 function yeno_slide_panel() {
     if ( is_admin() || wp_doing_ajax() ) return;
@@ -454,7 +426,7 @@ function yeno_slide_panel() {
     <?php
 }
 
-// ========== STICKY FOOTER ==========
+// Sticky footer
 add_action( 'wp_footer', 'yeno_sticky_footer' );
 function yeno_sticky_footer() {
     if ( is_admin() || wp_doing_ajax() ) return;
@@ -489,7 +461,7 @@ function yeno_sticky_footer() {
     <?php
 }
 
-// ========== AJAX HANDLERS ==========
+// AJAX handlers
 add_action( 'wp_ajax_nopriv_yeno_newsletter', 'yeno_handle_newsletter' );
 add_action( 'wp_ajax_yeno_newsletter', 'yeno_handle_newsletter' );
 function yeno_handle_newsletter() {
@@ -553,99 +525,22 @@ function yeno_ajax_quick_add_to_cart() {
     }
 }
 
-// ========== COOKIE FOR FIRST VISIT ==========
+// Cookie for first visit
 add_action( 'init', 'yeno_set_modal_cookie' );
 function yeno_set_modal_cookie() {
     if ( ! isset( $_COOKIE['yeno_modal_shown'] ) && ! is_admin() ) {
         setcookie( 'yeno_modal_shown', '1', time() + (30 * DAY_IN_SECONDS), COOKIEPATH, COOKIE_DOMAIN );
     }
 }
-
-// ========== REGISTER WIDGET AREAS ==========
-function yeno_widgets_init() {
-    register_sidebar( array(
-        'name'          => esc_html__( 'Sidebar', 'yeno-label' ),
-        'id'            => 'sidebar-1',
-        'description'   => esc_html__( 'Add widgets here.', 'yeno-label' ),
-        'before_widget' => '<section id="%1$s" class="widget %2$s">',
-        'after_widget'  => '</section>',
-        'before_title'  => '<h3 class="widget-title">',
-        'after_title'   => '</h3>',
-    ) );
-}
-add_action( 'widgets_init', 'yeno_widgets_init' );
 ?>`;
 
-        // CSS file
-        const cssContent = `/* YENO LABEL — Main Theme CSS */
-/* Minimalist aesthetic, WooCommerce-ready */
+        // CSS file (same as before but with block editor compatibility)
+        const cssContent = `/* YENO LABEL Block Theme — Additional CSS */
+/* Core styling for UI components (loading, modals, slide panel, sticky footer, add-to-cart) */
+/* Typography and colors are handled by theme.json for block editor */
 
-/* ---------- GLOBAL RESET ---------- */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body.yeno-brand-theme {
-    font-family: 'Montserrat', 'Helvetica Neue', sans-serif;
-    background-color: #FFFFFF;
-    color: #1A1A1A;
-    -webkit-font-smoothing: antialiased;
-    line-height: 1.5;
-}
-
-/* Container */
-.yeno-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-/* ---------- UNIFORM TYPOGRAPHY ---------- */
-body.yeno-brand-theme,
-.yeno-brand-theme p,
-.yeno-brand-theme li,
-.yeno-brand-theme .product-title,
-.yeno-brand-theme .price {
-    font-size: 14px;
-}
-
-.yeno-brand-theme h1,
-.yeno-brand-theme h2,
-.yeno-brand-theme h3,
-.yeno-brand-theme h4,
-.yeno-brand-theme h5,
-.yeno-brand-theme h6 {
+body {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 400;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: #1A1A1A;
-}
-
-.yeno-brand-theme h1 { font-size: 24px; font-weight: 500; margin: 2rem 0 1rem; }
-.yeno-brand-theme h2 { font-size: 18px; margin: 1.5rem 0 1rem; }
-.yeno-brand-theme h3 { font-size: 14px; letter-spacing: 2px; margin: 1rem 0 0.5rem; }
-.yeno-brand-theme p { font-weight: 300; line-height: 1.65; color: #2A2A2A; margin-bottom: 1rem; }
-
-/* ---------- LINKS ---------- */
-a {
-    color: #1A1A1A;
-    text-decoration: none;
-    transition: opacity 0.2s;
-}
-a:hover { opacity: 0.7; }
-
-/* ---------- BUTTONS ---------- */
-button, .button, .wp-block-button__link {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 400;
-    font-size: 12px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.2s;
 }
 
 /* ---------- LOADING SCREEN ---------- */
@@ -740,51 +635,7 @@ button, .button, .wp-block-button__link {
 }
 .yeno-help-container, .yeno-filter-container { position: relative; }
 
-/* ---------- WOOCOMMERCE SHOP PAGE ---------- */
-ul.products {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
-    list-style: none;
-    margin: 2rem 0;
-    padding: 0;
-}
-@media (max-width: 1024px) { ul.products { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 768px) { ul.products { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 480px) { ul.products { grid-template-columns: 1fr; } }
-
-.yeno-product-title {
-    font-size: 13px;
-    font-weight: 400;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin: 0.75rem 0 0.25rem;
-}
-.price, .woocommerce-Price-amount {
-    font-size: 13px;
-    font-weight: 300;
-    color: #666;
-}
-
-/* ---------- SINGLE PRODUCT ---------- */
-.single-product .product {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    max-width: 1200px;
-    margin: 2rem auto;
-}
-@media (max-width: 768px) { .single-product .product { grid-template-columns: 1fr; } }
-
-.product_title {
-    font-size: 20px;
-    font-weight: 400;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin: 0 0 0.75rem;
-}
-
-/* Custom add-to-cart */
+/* ---------- CUSTOM ADD-TO-CART ---------- */
 .yeno-custom-addtocart { margin: 1.5rem 0; }
 .yeno-selector-label {
     font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
@@ -815,57 +666,6 @@ ul.products {
 }
 .yeno-cart-feedback { font-size: 11px; margin-top: 0.5rem; color: #2c7a4d; text-align: center; }
 
-/* Product tabs */
-.woocommerce-tabs .wc-tabs {
-    display: flex; gap: 2rem; border-bottom: 1px solid #EBEBEB;
-    list-style: none; padding: 0; margin: 2rem 0 1rem;
-}
-.woocommerce-tabs .wc-tabs li a {
-    text-decoration: none; font-size: 12px; letter-spacing: 2px;
-    text-transform: uppercase; padding: 0.75rem 0; display: inline-block;
-    color: #888;
-}
-.woocommerce-tabs .wc-tabs li.active a { color: #1A1A1A; border-bottom: 2px solid #1A1A1A; }
-
-/* Related products */
-.related.products h2 { text-align: center; font-size: 16px; margin: 3rem 0 1.5rem; }
-
-/* ---------- CART PAGE ---------- */
-.cart_totals h2 { font-size: 16px; letter-spacing: 3px; margin-bottom: 1rem; }
-.wc-proceed-to-checkout .checkout-button,
-#place_order {
-    background: #1A1A1A; color: white; width: 100%;
-    padding: 1rem; letter-spacing: 3px; border: none; cursor: pointer;
-    text-align: center; display: block;
-}
-.shop_table.cart th { text-transform: uppercase; font-size: 11px; letter-spacing: 1px; }
-.shop_table.cart td { vertical-align: middle; }
-
-/* ---------- CHECKOUT PAGE ---------- */
-.woocommerce-billing-fields h3,
-.woocommerce-shipping-fields h3 { font-size: 14px; letter-spacing: 2px; margin: 1.5rem 0 1rem; }
-.form-row label { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
-.form-row input, .form-row select, .form-row textarea {
-    width: 100%; padding: 0.75rem 0; border: none;
-    border-bottom: 1px solid #E0E0E0; font-family: 'Montserrat', sans-serif;
-    font-size: 13px; font-weight: 300; background: transparent;
-}
-.form-row input:focus { border-bottom-color: #1A1A1A; outline: none; }
-
-/* ---------- MY ACCOUNT ---------- */
-.woocommerce-MyAccount-navigation ul {
-    list-style: none; padding: 0; display: flex; gap: 2rem;
-    border-bottom: 1px solid #EBEBEB; margin-bottom: 2rem;
-}
-.woocommerce-MyAccount-navigation ul li a {
-    text-decoration: none; font-size: 12px; letter-spacing: 1.5px;
-    text-transform: uppercase; padding: 0.75rem 0; display: inline-block;
-    color: #888;
-}
-.woocommerce-MyAccount-navigation ul li.is-active a {
-    color: #1A1A1A; border-bottom: 2px solid #1A1A1A;
-}
-
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 768px) {
     .yeno-slide-panel { width: 100%; }
@@ -875,10 +675,9 @@ ul.products {
 }
 @media (max-width: 640px) {
     .yeno-size-btn { padding: 0.4rem 0.7rem; font-size: 11px; }
-    .woocommerce-MyAccount-navigation ul { gap: 1rem; flex-wrap: wrap; }
 }`;
 
-        // JavaScript file
+        // JavaScript (same as standalone theme)
         const jsContent = `(function($) {
     'use strict';
     $(document).ready(function() {
@@ -956,7 +755,7 @@ ul.products {
         };
         $('#yenoSlideClose, #yeno-slide-backdrop').on('click', window.yenoCloseSlidePanel);
         
-        // Quick view on product items
+        // Quick view
         $(document).on('click', '.product-item, li.product', function(e) {
             if ($(e.target).closest('.add_to_cart_button, .yeno-quick-view-btn').length) return;
             var productId = $(this).find('.add_to_cart_button').data('product_id');
@@ -1048,7 +847,7 @@ ul.products {
         }
         updateBreadcrumbs();
         
-        // Add to cart feedback styling
+        // Add to cart feedback
         $(document.body).on('added_to_cart', function() {
             var $indicator = $('<div class="yeno-cart-indicator">ITEM ADDED</div>');
             $('body').append($indicator);
@@ -1057,177 +856,265 @@ ul.products {
     });
 })(jQuery);`;
 
-        // WooCommerce template overrides
-        const archiveProductPHP = `<?php
-/**
- * Archive Product (Shop Page)
- */
-get_header();
-?>
-<main class="yeno-main-content">
-    <div class="yeno-container">
-        <?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
-            <h1 class="yeno-page-title"><?php woocommerce_page_title(); ?></h1>
-        <?php endif; ?>
-        <?php do_action( 'woocommerce_archive_description' ); ?>
-        <?php if ( woocommerce_product_loop() ) : ?>
-            <?php do_action( 'woocommerce_before_shop_loop' ); ?>
-            <?php woocommerce_product_loop_start(); ?>
-            <?php while ( have_posts() ) : the_post(); ?>
-                <?php wc_get_template_part( 'content', 'product' ); ?>
-            <?php endwhile; ?>
-            <?php woocommerce_product_loop_end(); ?>
-            <?php do_action( 'woocommerce_after_shop_loop' ); ?>
-        <?php else : ?>
-            <?php do_action( 'woocommerce_no_products_found' ); ?>
-        <?php endif; ?>
-    </div>
+        // Template: index.html
+        const indexHtml = `<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
+<main class="wp-block-group">
+<!-- wp:query {"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true}} -->
+<div class="wp-block-query">
+<!-- wp:post-template -->
+<!-- wp:post-featured-image {"isLink":true} /-->
+<!-- wp:post-title {"isLink":true} /-->
+<!-- wp:post-excerpt /-->
+<!-- wp:post-date /-->
+<!-- /wp:post-template -->
+<!-- wp:query-pagination -->
+<!-- wp:query-pagination-previous /-->
+<!-- wp:query-pagination-numbers /-->
+<!-- wp:query-pagination-next /-->
+<!-- /wp:query-pagination -->
+</div>
+<!-- /wp:query -->
 </main>
-<?php get_footer(); ?>`;
+<!-- /wp:group -->
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->`;
 
-        const singleProductPHP = `<?php
-/**
- * Single Product Page
- */
-get_header();
-?>
-<main class="yeno-main-content">
-    <div class="yeno-container">
-        <?php while ( have_posts() ) : the_post(); ?>
-            <?php wc_get_template_part( 'content', 'single-product' ); ?>
-        <?php endwhile; ?>
-    </div>
+        // Template: page.html
+        const pageHtml = `<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
+<main class="wp-block-group">
+<!-- wp:post-title /-->
+<!-- wp:post-content /-->
 </main>
-<?php get_footer(); ?>`;
+<!-- /wp:group -->
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->`;
 
-        const cartPHP = `<?php
-/**
- * Cart Page
- */
-get_header();
-?>
-<main class="yeno-main-content">
-    <div class="yeno-container">
-        <h1 class="yeno-page-title"><?php esc_html_e( 'Cart', 'yeno-label' ); ?></h1>
-        <?php echo do_shortcode( '[woocommerce_cart]' ); ?>
-    </div>
+        // Template: single.html
+        const singleHtml = `<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
+<main class="wp-block-group">
+<!-- wp:post-title /-->
+<!-- wp:post-featured-image /-->
+<!-- wp:post-content /-->
+<!-- wp:post-date /-->
+<!-- wp:post-terms {"term":"category"} /-->
 </main>
-<?php get_footer(); ?>`;
+<!-- /wp:group -->
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->`;
 
-        const checkoutPHP = `<?php
-/**
- * Checkout Page
- */
-get_header();
-?>
-<main class="yeno-main-content">
-    <div class="yeno-container">
-        <h1 class="yeno-page-title"><?php esc_html_e( 'Checkout', 'yeno-label' ); ?></h1>
-        <?php echo do_shortcode( '[woocommerce_checkout]' ); ?>
-    </div>
+        // Template: archive.html
+        const archiveHtml = `<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
+<main class="wp-block-group">
+<!-- wp:query-title {"type":"archive"} /-->
+<!-- wp:term-description /-->
+<!-- wp:query {"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true}} -->
+<div class="wp-block-query">
+<!-- wp:post-template -->
+<!-- wp:post-title {"isLink":true} /-->
+<!-- wp:post-excerpt /-->
+<!-- /wp:post-template -->
+<!-- wp:query-pagination -->
+<!-- wp:query-pagination-previous /-->
+<!-- wp:query-pagination-numbers /-->
+<!-- wp:query-pagination-next /-->
+<!-- /wp:query-pagination -->
+</div>
+<!-- /wp:query -->
 </main>
-<?php get_footer(); ?>`;
+<!-- /wp:group -->
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->`;
 
-        const myAccountPHP = `<?php
-/**
- * My Account Page
- */
-get_header();
-?>
-<main class="yeno-main-content">
-    <div class="yeno-container">
-        <?php echo do_shortcode( '[woocommerce_my_account]' ); ?>
-    </div>
+        // Template: search.html
+        const searchHtml = `<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
+<main class="wp-block-group">
+<!-- wp:search {"label":"Search","showLabel":false,"buttonText":"Search"} /-->
+<!-- wp:query {"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true}} -->
+<div class="wp-block-query">
+<!-- wp:post-template -->
+<!-- wp:post-title {"isLink":true} /-->
+<!-- wp:post-excerpt /-->
+<!-- /wp:post-template -->
+</div>
+<!-- /wp:query -->
 </main>
-<?php get_footer(); ?>`;
+<!-- /wp:group -->
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->`;
 
-        const indexPHP = `<?php
-/**
- * Index / Blog Home
- */
-get_header();
-?>
-<main class="yeno-main-content">
-    <div class="yeno-container">
-        <?php if ( have_posts() ) : ?>
-            <?php while ( have_posts() ) : the_post(); ?>
-                <article <?php post_class(); ?>>
-                    <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-                    <div class="entry-meta"><?php echo get_the_date(); ?></div>
-                    <div class="entry-content"><?php the_excerpt(); ?></div>
-                </article>
-            <?php endwhile; ?>
-            <?php the_posts_pagination(); ?>
-        <?php else : ?>
-            <p><?php esc_html_e( 'No posts found.', 'yeno-label' ); ?></p>
-        <?php endif; ?>
-    </div>
+        // Template: 404.html
+        const fourofourHtml = `<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+<!-- wp:group {"tagName":"main","layout":{"type":"constrained"},"style":{"spacing":{"padding":{"top":"80px","bottom":"80px"}}}} -->
+<main class="wp-block-group" style="padding-top:80px;padding-bottom:80px">
+<!-- wp:heading {"textAlign":"center","style":{"typography":{"letterSpacing":"8px","fontSize":"14px"}}} -->
+<h2 class="wp-block-heading has-text-align-center" style="font-size:14px;letter-spacing:8px">404</h2>
+<!-- /wp:heading -->
+<!-- wp:heading {"textAlign":"center","style":{"typography":{"fontSize":"28px","fontWeight":"300"},"spacing":{"margin":{"top":"0","bottom":"24px"}}}} -->
+<h2 class="wp-block-heading has-text-align-center" style="margin-top:0;margin-bottom:24px;font-size:28px;font-weight:300">PAGE NOT FOUND</h2>
+<!-- /wp:heading -->
+<!-- wp:paragraph {"align":"center","style":{"typography":{"fontSize":"14px","fontWeight":"300"}}} -->
+<p class="has-text-align-center" style="font-size:14px;font-weight:300">The page you are looking for does not exist.</p>
+<!-- /wp:paragraph -->
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+<div class="wp-block-buttons">
+<!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link" href="/shop">CONTINUE SHOPPING</a></div>
+<!-- /wp:button -->
+</div>
+<!-- /wp:buttons -->
 </main>
-<?php get_footer(); ?>`;
+<!-- /wp:group -->
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->`;
 
-        const headerPHP = `<?php
-/**
- * Theme Header
- */
-?><!DOCTYPE html>
-<html <?php language_attributes(); ?>>
-<head>
-    <meta charset="<?php bloginfo( 'charset' ); ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php wp_head(); ?>
-</head>
-<body <?php body_class(); ?>>
-<?php wp_body_open(); ?>
-<header class="yeno-site-header">
-    <div class="yeno-header-inner">
-        <div class="yeno-logo">
-            <?php if ( has_custom_logo() ) : ?>
-                <?php the_custom_logo(); ?>
-            <?php else : ?>
-                <a href="<?php echo esc_url( home_url( '/' ) ); ?>">YENO LABEL</a>
-            <?php endif; ?>
-        </div>
-        <nav class="yeno-primary-nav">
-            <?php wp_nav_menu( array( 'theme_location' => 'primary', 'fallback_cb' => false ) ); ?>
-        </nav>
-        <div class="yeno-header-icons">
-            <?php if ( class_exists( 'WooCommerce' ) ) : ?>
-                <a href="<?php echo wc_get_cart_url(); ?>" class="yeno-cart-icon">
-                    🛒
-                    <span class="yeno-cart-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
-                </a>
-            <?php endif; ?>
-        </div>
-    </div>
-</header>
-<div id="primary" class="content-area">`;
+        // WooCommerce templates
+        const archiveProductHtml = `<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
+<main class="wp-block-group">
+<!-- wp:woocommerce/breadcrumbs /-->
+<!-- wp:heading {"level":1,"align":"wide"} -->
+<h1 class="wp-block-heading alignwide">Shop</h1>
+<!-- /wp:heading -->
+<!-- wp:woocommerce/product-collection {"query":{"perPage":12,"pages":0,"offset":0,"postType":"product","order":"asc","orderBy":"title","search":"","exclude":[],"sticky":"","inherit":true,"taxQuery":[],"isProductCollectionBlock":true,"featured":false,"woocommerceOnSale":false,"woocommerceStockStatus":["instock","outofstock","onbackorder"],"woocommerceAttributes":[],"woocommerceHandPickedProducts":[],"filterable":false,"relatedBy":{"categories":true}},"displayLayout":{"type":"flex","columns":4}} -->
+<div class="wp-block-woocommerce-product-collection">
+<!-- wp:woocommerce/product-template -->
+<!-- wp:woocommerce/product-image {"imageSizing":"thumbnail"} /-->
+<!-- wp:post-title {"textAlign":"center","level":3,"fontSize":"small"} /-->
+<!-- wp:woocommerce/product-price {"textAlign":"center"} /-->
+<!-- wp:woocommerce/product-button {"textAlign":"center"} /-->
+<!-- /wp:woocommerce/product-template -->
+<!-- wp:query-pagination -->
+<!-- wp:query-pagination-previous /-->
+<!-- wp:query-pagination-numbers /-->
+<!-- wp:query-pagination-next /-->
+<!-- /wp:query-pagination -->
+</div>
+<!-- /wp:woocommerce/product-collection -->
+</main>
+<!-- /wp:group -->
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->`;
 
-        const footerPHP = `<?php
-/**
- * Theme Footer
- */
-?>
-</div><!-- #primary -->
-<footer class="yeno-site-footer">
-    <div class="yeno-footer-inner">
-        <div class="yeno-footer-copyright">
-            &copy; <?php echo date('Y'); ?> YENO LABEL. All rights reserved.
-        </div>
-        <?php if ( has_nav_menu( 'footer' ) ) : ?>
-            <nav class="yeno-footer-nav">
-                <?php wp_nav_menu( array( 'theme_location' => 'footer', 'fallback_cb' => false ) ); ?>
-            </nav>
-        <?php endif; ?>
-    </div>
-</footer>
-<?php wp_footer(); ?>
-</body>
-</html>`;
+        const singleProductHtml = `<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
+<main class="wp-block-group">
+<!-- wp:woocommerce/breadcrumbs /-->
+<!-- wp:woocommerce/product-gallery {"align":"wide"} /-->
+<!-- wp:group {"align":"wide","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
+<div class="wp-block-group alignwide">
+<!-- wp:post-title {"level":1,"style":{"typography":{"fontSize":"24px","fontWeight":"400","letterSpacing":"3px"}},"fontFamily":"montserrat"} /-->
+<!-- wp:woocommerce/product-price /-->
+</div>
+<!-- /wp:group -->
+<!-- wp:woocommerce/product-rating /-->
+<!-- wp:post-excerpt /-->
+<!-- wp:woocommerce/add-to-cart-form /-->
+<!-- wp:woocommerce/product-details /-->
+<!-- wp:woocommerce/product-meta /-->
+<!-- wp:woocommerce/product-details /-->
+</main>
+<!-- /wp:group -->
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->`;
 
-        const functionsPHPSimple = `<?php
-// Simple functions file for standalone theme (placeholder)
-// Full functions are in the main functions.php
-?>`;
+        const cartHtml = `<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
+<main class="wp-block-group">
+<!-- wp:woocommerce/breadcrumbs /-->
+<!-- wp:woocommerce/cart /-->
+</main>
+<!-- /wp:group -->
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->`;
+
+        const checkoutHtml = `<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
+<main class="wp-block-group">
+<!-- wp:woocommerce/breadcrumbs /-->
+<!-- wp:woocommerce/checkout /-->
+</main>
+<!-- /wp:group -->
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->`;
+
+        const myAccountHtml = `<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
+<main class="wp-block-group">
+<!-- wp:woocommerce/my-account /-->
+</main>
+<!-- /wp:group -->
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->`;
+
+        // Template parts
+        const headerHtml = `<!-- wp:group {"style":{"spacing":{"padding":{"top":"20px","bottom":"20px"}},"color":{"background":"#FFFFFF"}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
+<div class="wp-block-group" style="background-color:#FFFFFF;padding-top:20px;padding-bottom:20px">
+<!-- wp:site-logo {"width":120} /-->
+<!-- wp:navigation {"overlayMenu":"mobile","style":{"typography":{"fontSize":"12px"}}} /-->
+<!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap"}} -->
+<div class="wp-block-group">
+<!-- wp:woocommerce/customer-account {"displayStyle":"icon_only","iconStyle":"account"} /-->
+<!-- wp:woocommerce/mini-cart /-->
+</div>
+<!-- /wp:group -->
+</div>
+<!-- /wp:group -->`;
+
+        const footerHtml = `<!-- wp:group {"style":{"spacing":{"padding":{"top":"40px","bottom":"40px"}},"color":{"background":"#bdddff"}}} -->
+<div class="wp-block-group" style="background-color:#bdddff;padding-top:40px;padding-bottom:40px">
+<!-- wp:columns -->
+<div class="wp-block-columns">
+<!-- wp:column -->
+<div class="wp-block-column">
+<!-- wp:heading {"level":5} -->
+<h5>YENO LABEL</h5>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>Built in the heart of Lagos.</p>
+<!-- /wp:paragraph -->
+</div>
+<!-- /wp:column -->
+<!-- wp:column -->
+<div class="wp-block-column">
+<!-- wp:heading {"level":5} -->
+<h5>Help</h5>
+<!-- /wp:heading -->
+<!-- wp:list -->
+<ul>
+<li><a href="/size-chart/">Size Guide</a></li>
+<li><a href="/shipping-policy/">Shipping</a></li>
+<li><a href="/returns-exchange/">Returns</a></li>
+<li><a href="/faq/">FAQ</a></li>
+</ul>
+<!-- /wp:list -->
+</div>
+<!-- /wp:column -->
+<!-- wp:column -->
+<div class="wp-block-column">
+<!-- wp:heading {"level":5} -->
+<h5>Account</h5>
+<!-- /wp:heading -->
+<!-- wp:list -->
+<ul>
+<li><a href="/my-account/">Login</a></li>
+<li><a href="/my-account/orders/">Orders</a></li>
+</ul>
+<!-- /wp:list -->
+</div>
+<!-- /wp:column -->
+<!-- wp:column -->
+<div class="wp-block-column">
+<!-- wp:heading {"level":5} -->
+<h5>Follow</h5>
+<!-- /wp:heading -->
+<!-- wp:social-links -->
+<ul class="wp-block-social-links">
+<li><a href="https://www.instagram.com">Instagram</a></li>
+</ul>
+<!-- /wp:social-links -->
+</div>
+<!-- /wp:column -->
+</div>
+<!-- /wp:columns -->
+<!-- wp:paragraph {"align":"center","style":{"typography":{"fontSize":"11px"}}} -->
+<p class="has-text-align-center" style="font-size:11px">© YENO LABEL 2026 — ALL RIGHTS RESERVED</p>
+<!-- /wp:paragraph -->
+</div>
+<!-- /wp:group -->`;
 
         const screenshotBase64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==";
 
@@ -1236,7 +1123,7 @@ get_header();
         const statusDiv = document.getElementById('status');
 
         downloadBtn.addEventListener('click', async function() {
-            statusDiv.innerHTML = '<div class="success">⏳ Creating theme ZIP...</div>';
+            statusDiv.innerHTML = '<div class="success">⏳ Creating block theme ZIP...</div>';
             
             try {
                 if (typeof JSZip === 'undefined') {
@@ -1248,28 +1135,40 @@ get_header();
                 
                 // Root files
                 zip.file("style.css", styleCSS);
+                zip.file("theme.json", themeJson);
                 zip.file("functions.php", functionsPHP);
                 zip.file("screenshot.png", screenshotBase64, { base64: true });
-                zip.file("index.php", indexPHP);
-                zip.file("header.php", headerPHP);
-                zip.file("footer.php", footerPHP);
                 
                 // Assets
                 zip.folder("assets").folder("css").file("yeno-theme.css", cssContent);
                 zip.folder("assets").folder("js").file("yeno-theme.js", jsContent);
                 
+                // Templates
+                const templatesFolder = zip.folder("templates");
+                templatesFolder.file("index.html", indexHtml);
+                templatesFolder.file("page.html", pageHtml);
+                templatesFolder.file("single.html", singleHtml);
+                templatesFolder.file("archive.html", archiveHtml);
+                templatesFolder.file("search.html", searchHtml);
+                templatesFolder.file("404.html", fourofourHtml);
+                
                 // WooCommerce templates
-                const woocommerceFolder = zip.folder("woocommerce");
-                woocommerceFolder.file("archive-product.php", archiveProductPHP);
-                woocommerceFolder.file("single-product.php", singleProductPHP);
-                woocommerceFolder.file("cart.php", cartPHP);
-                woocommerceFolder.file("checkout.php", checkoutPHP);
-                woocommerceFolder.file("myaccount.php", myAccountPHP);
+                const wcFolder = templatesFolder.folder("woocommerce");
+                wcFolder.file("archive-product.html", archiveProductHtml);
+                wcFolder.file("single-product.html", singleProductHtml);
+                wcFolder.file("cart.html", cartHtml);
+                wcFolder.file("checkout.html", checkoutHtml);
+                wcFolder.file("myaccount.html", myAccountHtml);
+                
+                // Template parts
+                const partsFolder = zip.folder("parts");
+                partsFolder.file("header.html", headerHtml);
+                partsFolder.file("footer.html", footerHtml);
                 
                 const content = await zip.generateAsync({ type: "blob" });
-                saveAs(content, "yeno-label-theme.zip");
+                saveAs(content, "yeno-label-block-theme.zip");
                 
-                statusDiv.innerHTML = '<div class="success">✅ Theme downloaded! Upload to WordPress → Appearance → Themes → Add New → Activate.</div>';
+                statusDiv.innerHTML = '<div class="success">✅ Block theme downloaded! Install via Appearance → Themes → Add New. Then go to Appearance → Editor to customize.</div>';
             } catch (error) {
                 statusDiv.innerHTML = '<div class="success" style="background:#ffebee;color:#c62828;">❌ Error: ' + error.message + '</div>';
             }
